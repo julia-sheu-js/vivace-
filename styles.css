@@ -1,0 +1,802 @@
+/* Vivace@SAS
+   Idea: the page reads like a concert program on cream paper.
+   The title sits on a five-line staff and a short melody plays in around it.
+   That is the one bold move; everything else stays quiet and compact. */
+
+:root {
+    --paper: #F6F0E2;
+    --paper-light: #FBF8F0;
+    --blue: #A9CCE3;
+    --blue-pale: #DCEAF4;
+    --blue-ink: #47718F;   /* headings, staff lines, links */
+    --text: #3F596C;
+
+    --display: "Cormorant Garamond", Garamond, Palatino, "Palatino Linotype", serif;
+    --body: "Source Serif 4", Palatino, "Palatino Linotype", Georgia, serif;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+}
+
+:focus-visible {
+    outline: 2px solid var(--blue-ink);
+    outline-offset: 3px;
+}
+
+.page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px 40px;
+}
+
+.skip {
+    position: absolute;
+    left: -9999px;
+}
+.skip:focus {
+    left: 16px;
+    top: 16px;
+    z-index: 20;
+    padding: 8px 14px;
+    background: var(--paper-light);
+    color: var(--blue-ink);
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+a {
+    color: var(--blue-ink);
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+}
+a:hover { background: var(--blue-pale); }
+
+/* ---------- Top bar: menu on the left, join button on the right ---------- */
+
+.site-nav {
+    position: sticky;
+    top: 0;
+    display: flex;
+    z-index: 40;
+    align-items: center;
+    justify-content: space-between;
+   
+    background: var(--paper);
+    
+    
+    padding: 14px 0 0;
+}
+
+.menu-wrap {
+    position: relative;
+    display: inline-block;
+}
+
+.menu-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding: 8px 4px;
+    background: none;
+    border: 0;
+    color: var(--blue-ink);
+    font: italic 500 1.45rem var(--display);
+    cursor: pointer;
+}
+
+/* The menu icon is a five-line staff */
+.bars {
+    display: grid;
+    gap: 3px;
+}
+.bars span {
+    display: block;
+    width: 26px;
+    height: 1.5px;
+    background: currentColor;
+}
+
+.menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 10;
+    min-width: 220px;
+    margin: 6px 0 0;
+    padding: 6px 0;
+    list-style: none;
+    background: var(--paper-light);
+    border: 1px solid var(--blue-ink);
+    box-shadow: 5px 5px 0 var(--blue);
+}
+.menu a {
+    display: block;
+    padding: 8px 22px;
+    color: var(--blue-ink);
+    font: 500 1.35rem var(--display);
+    text-decoration: none;
+}
+.menu a:hover { background: var(--blue-pale); }
+.menu a[aria-current="page"] {
+    font-style: italic;
+    font-weight: 600;
+}
+
+.cta {
+    display: inline-block;
+    padding: 7px 24px;
+    background: var(--blue-ink);
+    color: var(--paper-light);
+    font: 600 1.35rem var(--display);
+    text-decoration: none;
+    box-shadow: 4px 4px 0 var(--blue);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.cta:hover {
+    background: var(--blue-ink);
+    color: #fff;
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 var(--blue);
+}
+
+/* ---------- Masthead: title on a staff ---------- */
+
+.masthead {
+    margin: 14px 0 22px;
+    background: var(--paper);
+    text-align: center;
+}
+
+/* Only the About page keeps its heading pinned */
+.about .masthead {
+    position: sticky;
+    z-index: 30;
+    top: var(--nav-h);
+}
+
+.title-staff {
+    
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+}
+
+h1 {
+    margin: 0;
+    padding: 0 28px;
+    color: var(--blue-ink);
+    font: 500 clamp(2.2rem, 4.6vw, 3.6rem) / 1.1 var(--display);
+    letter-spacing: 0.01em;
+    text-wrap: balance;
+}
+
+.tempo {
+    margin: 6px 0 0;
+    font: italic 500 1.25rem var(--display);
+}
+
+/* Five-line staff segment with a barline at its outer end */
+.staff {
+    position: relative;
+    height: 33px;
+    background-image: repeating-linear-gradient(
+        to bottom,
+        var(--blue-ink) 0 1px,
+        transparent 1px 8px
+    );
+    color: var(--blue-ink);
+}
+.staff::before,
+.staff::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    height: 100%;
+}
+.staff::before {
+    left: 0;
+    width: 1px;
+    background: var(--blue-ink);
+}
+.staff::after {
+    right: 0;
+    width: 7px;
+    background: linear-gradient(to right,
+        var(--blue-ink) 0 1px,
+        transparent 1px 4px,
+        var(--blue-ink) 4px 7px);
+}
+.staff.left::after,
+.staff.right::before { display: none; }
+
+.staff svg {
+    position: absolute;
+    top: 0;
+    width: 160px;
+    height: 33px;
+    overflow: visible;
+}
+.staff.left svg  { left: 16px; }
+.staff.right svg { right: 20px; }
+
+/* The melody plays in once, note by note */
+.staff .n {
+    opacity: 0;
+    animation: note-in 0.4s ease forwards;
+    animation-delay: calc(var(--i) * 0.14s + 0.3s);
+}
+@keyframes note-in {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .staff .n { opacity: 1; animation: none; }
+}
+
+/* ---------- Photo strip ---------- */
+
+.pics {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.pics img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    padding: 5px;
+    background: var(--paper-light);
+    border: 1px solid var(--blue);
+    box-shadow: 3px 3px 0 var(--blue-pale);
+}
+
+/* ---------- Info: hello + details, and coming up ---------- */
+
+.bottom {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: 56px;
+    align-items: start;
+    margin-top: 32px;
+}
+
+.section-title {
+    margin: 0 0 8px;
+    color: var(--blue-ink);
+    font: 500 clamp(1.8rem, 3vw, 2.25rem) / 1.1 var(--display);
+}
+
+.note p {
+    max-width: 52ch;
+    margin: 0;
+    font-size: 1.1rem;
+    line-height: 1.55;
+}
+
+/* Program-style listings: label ........ value */
+.details,
+.comingup ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 3px double var(--blue-ink);
+    border-bottom: 3px double var(--blue-ink);
+}
+.details { margin-top: 14px; }
+
+.details div,
+.comingup li {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: 6px 0;
+}
+
+.details dt,
+.date {
+    display: flex;
+    flex: 1;
+    align-items: baseline;
+    color: var(--blue-ink);
+    white-space: nowrap;
+}
+.details dt {
+    font: italic 500 1.35rem var(--display);
+}
+.date {
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+.details dt::after,
+.date::after {
+    content: "";
+    flex: 1;
+    margin: 0 0 0.3em 10px;
+    border-bottom: 2px dotted var(--blue);
+}
+.details dd { margin: 0; text-align: right; }
+.what { max-width: 62%; text-align: right; }
+
+/* The next event stands out by tint and weight */
+.comingup li.next {
+    margin: 0 -10px;
+    padding: 6px 10px;
+    background: var(--blue-pale);
+    font-weight: 600;
+}
+
+/* ---------- About page ---------- */
+
+.prose {
+    max-width: 62ch;
+    margin: 32px auto 0;
+}
+.prose section + section { margin-top: 32px; }
+.prose p { margin: 0; }
+
+/* ---------- Who we are: scrolling display ---------- */
+
+/* Default layout (no JavaScript, reduced motion, or a very short screen):
+   the frames are simply stacked down the page. */
+.frames { margin-top: 40px; }
+.frame {
+    max-width: 900px;
+    margin-inline: auto;
+}
+.frame + .frame { margin-top: 72px; }
+
+.frame-intro { text-align: center; }
+.frame-intro .lead {
+    max-width: 38ch;
+    margin: 0 auto;
+    font-size: 1.4rem;
+    line-height: 1.5;
+}
+.scroll-hint {
+    margin: 28px 0 0;
+    font: italic 500 1.25rem var(--display);
+}
+
+.officer {
+    display: grid;
+    grid-template-columns: 320px minmax(0, 1fr);
+    gap: 56px;
+    align-items: center;
+    width: 100%;
+}
+.officer.flip { grid-template-columns: minmax(0, 1fr) 320px; }
+.officer.flip .photo { order: 2; }
+
+.photo { margin: 0; }
+.photo img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    padding: 8px;
+    background: var(--paper-light);
+    border: 1px solid var(--blue);
+    box-shadow: 4px 4px 0 var(--blue-pale);
+}
+.officer h2 {
+    margin: 0;
+    color: var(--blue-ink);
+    font: 500 clamp(1.9rem, 3.4vw, 2.5rem) / 1.1 var(--display);
+}
+.officer .role {
+    margin: 2px 0 12px;
+    color: var(--blue-ink);
+    font: italic 500 1.4rem var(--display);
+}
+.officer .bio {
+    max-width: 46ch;
+    margin: 0;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+/* Scrolling mode: one full-screen stage stays pinned while the page scrolls
+   past it, and the frames swap in place. script.js adds the .scrolly class. */
+.scene.scrolly {
+    height: calc(100vh + var(--n) * 240vh);
+    height: calc(100svh + var(--n) * 240svh);
+}
+.scrolly .stage {
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    height: 100svh;
+}
+.scrolly .masthead { margin-bottom: 0; }
+.scrolly .frames {
+    position: relative;
+    flex: 1;
+    margin-top: 0;
+}
+.scrolly .frame {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    pointer-events: none;
+}
+.scrolly .frame.active {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+}
+
+.signup-list {
+    margin: 14px 0 0;
+    padding: 0;
+    list-style: none;
+    border-top: 3px double var(--blue-ink);
+    border-bottom: 3px double var(--blue-ink);
+}
+.signup-list li + li { border-top: 1px dotted var(--blue-ink); }
+.signup-list a {
+    display: block;
+    padding: 10px 8px;
+    font-weight: 600;
+}
+.signup-list .steps a,
+.signup-list.steps a { padding-bottom: 2px; }
+.signup-list .hint {
+    display: block;
+    padding: 0 8px 10px;
+}
+
+/* Frame markers: one dot per frame, also usable as buttons */
+.stage-nav {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    transform: translateY(-50%);
+}
+.stage-nav[hidden] { display: none; }
+.stage-nav button {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    background: none;
+    border: 0;
+    cursor: pointer;
+}
+.stage-nav button::after {
+    content: "";
+    width: 12px;
+    height: 12px;
+    border: 1.5px solid var(--blue-ink);
+    border-radius: 50%;
+    transition: background 0.2s ease;
+}
+.stage-nav button:hover::after { background: var(--blue); }
+.stage-nav button[aria-current="true"]::after { background: var(--blue-ink); }
+
+@media (prefers-reduced-motion: reduce) {
+    .scrolly .frame { transition: none; }
+}
+
+/* ---------- Forms page ---------- */
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 40px;
+    align-items: stretch;
+    margin-top: 36px;
+}
+
+/* Each form is a card, like a page in a concert program */
+.card {
+    display: flex;
+    flex-direction: column;
+    background: var(--paper-light);
+    border: 1px solid var(--blue-ink);
+    box-shadow: 6px 6px 0 var(--blue);
+}
+.card-staff {
+    height: 25px;
+    margin: 20px 28px 0;
+    background-image: repeating-linear-gradient(
+        to bottom,
+        var(--blue-ink) 0 1px,
+        transparent 1px 6px
+    );
+}
+.card-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 18px 28px 28px;
+}
+.card-body p { margin: 0 0 12px; }
+.card-no {
+    margin-bottom: 0 !important;
+    font: italic 500 1.25rem var(--display);
+}
+.card .section-title { margin-bottom: 14px; }
+
+/* Tinted status line, same idea as the "next event" row on the home page */
+.card .status {
+    margin: 0 -28px 18px !important;
+    padding: 8px 28px;
+    background: var(--blue-pale);
+    color: var(--blue-ink);
+    font-weight: 600;
+}
+.card .hint { font-style: italic; }
+
+/* Officer email buttons */
+.contacts {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 14px;
+    padding: 0;
+    list-style: none;
+}
+.contacts .or {
+    font: italic 500 1.25rem var(--display);
+}
+.contacts a {
+    display: block;
+    padding: 9px 16px;
+    
+    line-height: 1.35;
+    text-decoration: none;
+}
+.contacts a:hover { background: var(--blue-pale); }
+.contacts .who { display: block; font-weight: 600; }
+.contacts .role {
+    display: block;
+    font: italic 500 1.15rem var(--display);
+}
+.contacts .addr {
+    display: block;
+    font-size: 0.95rem;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+/* The main button sits at the bottom of every card so the two line up */
+.card-action { margin-top: auto; 
+    padding: 20px;
+    padding-bottom: 30px;
+}
+.card-action p {
+    padding-bottom: 20px;
+}
+.card-action .cta {
+    display: block;
+    padding: 12px 24px;
+    font-size: 1.5rem;
+    text-align: center;
+}
+.card .meta {
+    margin: 12px 0 0 !important;
+    font-size: 0.95rem;
+    font-style: italic;
+    text-align: center;
+}
+
+/* Questions */
+.faq { margin-top: 64px; }
+.faq-list {
+    max-width: 760px;
+    border-top: 3px double var(--blue-ink);
+    border-bottom: 3px double var(--blue-ink);
+}
+.faq-list details + details { border-top: 1px dotted var(--blue-ink); }
+.faq-list summary {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 8px;
+    color: var(--blue-ink);
+    font: 500 1.4rem var(--display);
+    cursor: pointer;
+    list-style: none;
+}
+.faq-list summary::-webkit-details-marker { display: none; }
+.faq-list summary::after {
+    content: "+";
+    font-size: 1.6rem;
+    line-height: 1;
+}
+.faq-list details[open] summary::after { content: "\2212"; }
+.faq-list summary:hover { background: var(--blue-pale); }
+.faq-list details p {
+    max-width: 62ch;
+    margin: 0;
+    padding: 0 8px 14px;
+}
+
+/* ---------- Footer ---------- */
+
+.site-footer {
+    margin-top: 36px;
+    padding-top: 14px;
+    border-top: 3px double var(--blue-ink);
+}
+.footer-cols {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px 56px;
+}
+.footer-cols div {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+}
+.footer-cols h3 {
+    margin: 0;
+    color: var(--blue-ink);
+    font: italic 500 1.35rem var(--display);
+}
+.footer-cols p { margin: 0; }
+
+/* ---------- Smaller screens ---------- */
+
+@media (max-width: 900px) {
+    /* Title on top, staff with the melody underneath */
+    .title-staff { grid-template-columns: 1fr 1fr; }
+    h1 {
+        grid-row: 1;
+        grid-column: 1 / -1;
+        padding: 0 0 14px;
+    }
+    .staff.left  { grid-row: 2; grid-column: 1; }
+    .staff.right { grid-row: 2; grid-column: 2; }
+    .tempo { margin-top: 24px; }
+}
+
+@media (max-width: 820px) {
+    .cards { grid-template-columns: 1fr; gap: 32px; }
+    .frame + .frame { margin-top: 56px; }
+    .officer,
+    .officer.flip {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .officer.flip .photo { order: 0; }
+    .photo { max-width: 260px; }
+    .scrolly .photo { max-width: 220px; }
+    .scrolly .frame { bottom: 40px; } /* leave room for the dots */
+
+    /* Frame markers move to the bottom edge */
+    .stage-nav {
+        top: auto;
+        right: auto;
+        bottom: 10px;
+        left: 50%;
+        flex-direction: row;
+        transform: translateX(-50%);
+    }
+
+    .bottom {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+}
+
+@media (max-width: 640px) {
+    .page { padding: 0 18px 32px; }
+
+    .card-staff { margin: 16px 20px 0; }
+    .card-body { padding: 16px 20px 24px; }
+    .card .status { margin: 0 -20px 18px !important; padding: 8px 20px; }
+    .faq { margin-top: 48px; }
+    .contacts { flex-direction: column; align-items: stretch; gap: 6px; }
+    .contacts .or { text-align: center; }
+
+    .staff.left svg  { left: 6px; }
+    .staff.right svg { right: 10px; }
+
+    .cta { padding: 6px 18px; font-size: 1.2rem; }
+
+    .pics { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .pics li:nth-child(n+4) { display: none; }
+    .pics img { aspect-ratio: 4 / 3; }
+
+    .what { max-width: 55%; }
+}
+:root{
+    --nav-h: 72px;
+}
+
+.site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 40;              
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0;
+    background: var(--paper);    
+    border-bottom: 1px solid var(--blue);
+}
+
+
+/* ---------- Home page: a bit more breathing room ---------- */
+
+.home .page { padding-bottom: 64px; }
+
+.home .masthead { margin: 20px 0 40px; }
+
+.home .pics { gap: 22px; }
+.home .pics img {
+    aspect-ratio: 3 / 2;
+    padding: 6px;
+    box-shadow: 4px 4px 0 var(--blue-pale);
+}
+
+.home .bottom {
+    gap: 72px;
+    margin-top: 60px;
+}
+.home .section-title {
+    margin-bottom: 14px;
+    font-size: clamp(2rem, 3.4vw, 2.6rem);
+}
+.home .note p {
+    font-size: 1.15rem;
+    line-height: 1.65;
+}
+.home .details { margin-top: 26px; }
+.home .details div,
+.home .comingup li { padding: 11px 0; }
+.home .comingup li.next {
+    margin: 0 -12px;
+    padding: 11px 12px;
+}
+.home .site-footer {
+    margin-top: 80px;
+    padding-top: 22px;
+}
+
+@media (max-width: 820px) {
+    .home .bottom { gap: 44px; }
+}
+@media (max-width: 640px) {
+    .home .masthead { margin-bottom: 28px; }
+    .home .pics { gap: 12px; }
+    .home .bottom { margin-top: 44px; }
+    .home .site-footer { margin-top: 56px; }
+}
