@@ -1416,6 +1416,8 @@ a.record:hover .record-title { text-decoration: underline; text-underline-offset
 /* ---------- Home page: faint vinyl outline behind the Hello intro ---------- */
 .hello {
     position: relative;
+    /* keep the disc inside this column's paint layer, never over "Coming Up!" */
+    isolation: isolate;
 }
 .vinyl-outline {
     position: absolute;
@@ -1457,15 +1459,17 @@ a.record:hover .record-title { text-decoration: underline; text-underline-offset
     border-radius: 50%;
     box-shadow: inset 0 0 0 1.5px rgba(71, 113, 143, 0.22);
 }
-.hello > * { position: relative; z-index: 1; }
+/* copy sits above the decorative disc, which stays out of the flow behind it */
+.hello > *:not(.vinyl-outline) { position: relative; z-index: 1; }
 .hello .section-title { z-index: 1; }
 
 @media (max-width: 820px) {
+    /* single-column intro: keep the disc inside the page gutters */
     .vinyl-outline {
-        width: 240px;
-        height: 240px;
-        right: -40px;
-        top: -40px;
+        width: 210px;
+        height: 210px;
+        right: -12px;
+        top: -24px;
     }
 }
 
@@ -1490,9 +1494,17 @@ a.record:hover .record-title { text-decoration: underline; text-underline-offset
 .open-book {
     position: relative;
     padding: 18px 14px 26px;
-    background: var(--blue);
-    border-radius: 6px 10px 10px 6px;
-    box-shadow: 6px 8px 0 var(--blue-pale), 0 14px 30px rgba(31, 58, 82, 0.18);
+    /* Cloth-bound cover: a slanted weave over a deep blue gradient */
+    background:
+        repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 3px),
+        repeating-linear-gradient(-45deg, rgba(0, 0, 0, 0.06) 0 1px, transparent 1px 3px),
+        linear-gradient(155deg, #5d87a3 0%, var(--blue-ink) 48%, #3a5f77 100%);
+    border-radius: 5px 12px 12px 5px;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.28),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+        7px 9px 0 var(--blue-pale),
+        0 16px 32px rgba(31, 58, 82, 0.22);
 }
 /* stacked page edges peeking out under the cover, like a fore-edge */
 .open-book::before {
@@ -1513,7 +1525,9 @@ a.record:hover .record-title { text-decoration: underline; text-underline-offset
     right: clamp(28px, 8%, 64px);
     width: 18px;
     height: 58px;
-    background: var(--blue-ink);
+    /* silk ribbon picked out in the site's muted rose */
+    background: linear-gradient(to right, #c9a9a6, #bb938f 55%, #ad8783);
+    box-shadow: inset 1px 0 0 rgba(255, 255, 255, 0.35);
     clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 78%, 0 100%);
     z-index: 3;
 }
@@ -1525,16 +1539,20 @@ a.record:hover .record-title { text-decoration: underline; text-underline-offset
     align-items: stretch;
 }
 .book-page {
+    --gutter: to right;
     position: relative;
     padding: 34px 34px 46px;
+    /* Papery stock: two grain dot layers, a warm tone that deepens toward the
+       gutter, and a slightly aged foot where the pages have been turned. */
     background:
-        repeating-linear-gradient(
-            to bottom,
-            transparent 0 15px,
-            rgba(71, 113, 143, 0.10) 15px calc(15px + 1px)
-        ) left 24px top 78px / calc(100% - 48px) 84px no-repeat,
+        radial-gradient(rgba(120, 96, 58, 0.055) 0.5px, transparent 0.6px) 0 0 / 4px 4px,
+        radial-gradient(rgba(71, 113, 143, 0.045) 0.5px, transparent 0.6px) 2px 2px / 6px 6px,
+        linear-gradient(var(--gutter), rgba(222, 206, 178, 0.55), rgba(251, 248, 240, 0) 42%),
+        linear-gradient(to top, rgba(198, 180, 150, 0.22), rgba(251, 248, 240, 0) 15%),
         var(--paper-light);
 }
+.page-left  { --gutter: to left; }
+.page-right { --gutter: to right; }
 .page-left  { border-radius: 4px 0 0 4px; }
 .page-right { border-radius: 0 4px 4px 0; }
 /* gentle curve of pages toward the gutter */
@@ -1565,6 +1583,15 @@ a.record:hover .record-title { text-decoration: underline; text-underline-offset
     margin: 2px 0 18px;
     color: var(--blue-ink);
     font: 500 clamp(1.6rem, 2.4vw, 2.05rem)/1.15 var(--display);
+}
+/* short printer's rule under each movement heading */
+.book-page h2::after {
+    content: "";
+    display: block;
+    width: 44px;
+    height: 2px;
+    margin-top: 12px;
+    background: rgba(71, 113, 143, 0.32);
 }
 .book-rules {
     list-style: none;
@@ -1729,8 +1756,8 @@ a.record:hover .record-title { text-decoration: underline; text-underline-offset
     /* pages stack like a closed book read top to bottom */
     .book-pages { grid-template-columns: minmax(0, 1fr); }
     .book-spine { display: none; }
-    .page-left  { border-radius: 4px 4px 0 0; box-shadow: inset 0 -12px 16px -12px rgba(31, 58, 82, 0.25); }
-    .page-right { margin-top: 10px; border-radius: 0 0 4px 4px; box-shadow: inset 0 12px 16px -12px rgba(31, 58, 82, 0.25); }
+    .page-left  { border-radius: 4px 4px 0 0; box-shadow: inset 0 -12px 16px -12px rgba(31, 58, 82, 0.25); --gutter: to top; }
+    .page-right { margin-top: 10px; border-radius: 0 0 4px 4px; box-shadow: inset 0 12px 16px -12px rgba(31, 58, 82, 0.25); --gutter: to bottom; }
     .book-page { padding: 26px 22px 42px; }
     .book-rules li { padding-left: 36px; }
 }
