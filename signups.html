@@ -3,14 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sign up for Vivace@SAS visits and events. Pick a date on a spinning record and add your name to the sheet.">
     <title>Sign Ups | Vivace@SAS</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>%E2%99%AB</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script src="script.js" defer></script>
 </head>
-<body>
+<body class="signups">
     <a class="skip" href="#main">Skip to content</a>
 
     <div class="page">
@@ -20,6 +22,7 @@
                 <button class="menu-btn" aria-expanded="false" aria-controls="menu">
                     <span class="bars" aria-hidden="true">
                         <span></span><span></span><span></span><span></span><span></span>
+                        <span></span><span></span>
                     </span>
                     Menu
                 </button>
@@ -28,10 +31,17 @@
                     <li><a href="about.html">About Us</a></li>
                     <li><a href="signups.html" aria-current="page">Sign Ups</a></li>
                     <li><a href="forms.html">Forms</a></li>
-                    <li><a href="index.html">Resources</a></li>
+                    <li><a href="rec.html">Resources</a></li>
                 </ul>
             </div>
-            <a class="cta" href="signups.html">Join Vivace</a>
+                        <a class="nav-follow" href="https://www.instagram.com/vivace.sas" target="_blank" rel="noopener noreferrer">
+            <svg class="ig-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+            <rect x="2" y="2" width="20" height="20" rx="5.5" fill="none" stroke="currentColor" stroke-width="2"/>
+            <circle cx="12" cy="12" r="4.6" fill="none" stroke="currentColor" stroke-width="2"/>
+            <circle cx="17.4" cy="6.6" r="1.4" fill="currentColor"/>
+            </svg>
+            <span class="follow-label">Follow us</span>
+            </a>
         </nav>
 
         <header class="masthead">
@@ -102,30 +112,90 @@
                     <!-- Placeholder copy: edit to match how your sign-up sheet works -->
                     <p>Choose a day and add your name on the sheet.</p>
                     <!-- Replace each link with the real sheet for that date, and MM/DD with the date -->
-                    <ul class="signup-list">
-                        <li><a href="https://docs.google.com/spreadsheets/">MM/DD visit</a></li>
-                        <li><a href="https://docs.google.com/spreadsheets/">MM/DD visit</a></li>
-                        <li><a href="https://docs.google.com/spreadsheets/">MM/DD visit</a></li>
-                        <li><a href="https://docs.google.com/spreadsheets/">MM/DD visit</a></li>
-                        <li><a href="https://docs.google.com/spreadsheets/">MM/DD visit</a></li>
-                    </ul>
+                    <div class="tickets">
+                        <a class="ticket" style="--accent: #47718F" href="https://docs.google.com/spreadsheets/">
+                            <span class="ticket-no" aria-hidden="true">01</span>
+                            <span class="ticket-body">
+                                <span class="ticket-title">MM/DD visit</span>
+                                <span class="ticket-sub">Open the sign-up sheet and add your name.</span>
+                            </span>
+                            <span class="ticket-cta" aria-hidden="true">Sign&nbsp;up</span>
+                        </a>
+                        <a class="ticket" style="--accent: #A9CCE3" href="https://docs.google.com/spreadsheets/">
+                            <span class="ticket-no" aria-hidden="true">02</span>
+                            <span class="ticket-body">
+                                <span class="ticket-title">MM/DD visit</span>
+                                <span class="ticket-sub">Open the sign-up sheet and add your name.</span>
+                            </span>
+                            <span class="ticket-cta" aria-hidden="true">Sign&nbsp;up</span>
+                        </a>
+                        <a class="ticket" style="--accent: #7FA8C9" href="https://docs.google.com/spreadsheets/">
+                            <span class="ticket-no" aria-hidden="true">03</span>
+                            <span class="ticket-body">
+                                <span class="ticket-title">MM/DD visit</span>
+                                <span class="ticket-sub">Open the sign-up sheet and add your name.</span>
+                            </span>
+                            <span class="ticket-cta" aria-hidden="true">Sign&nbsp;up</span>
+                        </a>
+                        <a class="ticket" style="--accent: #C9A9A6" href="https://docs.google.com/spreadsheets/">
+                            <span class="ticket-no" aria-hidden="true">04</span>
+                            <span class="ticket-body">
+                                <span class="ticket-title">MM/DD visit</span>
+                                <span class="ticket-sub">Open the sign-up sheet and add your name.</span>
+                            </span>
+                            <span class="ticket-cta" aria-hidden="true">Sign&nbsp;up</span>
+                        </a>
+                        <a class="ticket" style="--accent: #8FA37E" href="https://docs.google.com/spreadsheets/">
+                            <span class="ticket-no" aria-hidden="true">05</span>
+                            <span class="ticket-body">
+                                <span class="ticket-title">MM/DD visit</span>
+                                <span class="ticket-sub">Open the sign-up sheet and add your name.</span>
+                            </span>
+                            <span class="ticket-cta" aria-hidden="true">Sign&nbsp;up</span>
+                        </a>
+                    </div>
                 </section>
 
-                <section class="note">
+                <section class="note center">
                     <h2 class="section-title">New to the club?</h2>
                     <!-- Placeholder copy: edit as needed -->
                     <p>Two quick steps to get started.</p>
-                    <ul class="signup-list steps">
-                        <li>
-                            <a href="https://www.schoolsbuddy.com">Sign up on SchoolsBuddy</a>
-                            <span class="hint">Register for the club here first.</span>
-                        </li>
-                        <!-- Swap in the real Google Chat link when you have it -->
-                        <li>
-                            <a href="https://mail.google.com">Join the Google Chat</a>
-                            <span class="hint">Get updates and reminders from the officers.</span>
-                        </li>
-                    </ul>
+                    <div class="record-grid turns">
+                        <a class="record turntable" href="https://accounts2.schoolsbuddy.net/Account/Login?ReturnUrl=%2Fconnect%2Fauthorize%2Fcallback%3Fresponse_type%3Dcode%26client_id%3Dspa%26state%3DZFJwSnRjSlBVWFNPWGx6OENydERleG5lNlJROTFUQVgySEh0WHBYTVFpfkZQ%26redirect_uri%3Dhttps%253A%252F%252Fsas-sg.schoolsbuddy.net%26scope%3Dopenid%2520profile%2520coreAPI%2520offline_access%2520email%26code_challenge%3DOw-mKSqYuW-oC93DUVRX7LDalQ8gh4xzEebOQyOqbDM%26code_challenge_method%3DS256%26nonce%3DZFJwSnRjSlBVWFNPWGx6OENydERleG5lNlJROTFUQVgySEh0WHBYTVFpfkZQ">
+                            <span class="platter">
+                                <span class="tonearm" aria-hidden="true"></span>
+                                <span class="disc small" style="--label: #47718F; --vinyl: #1b1b1d" aria-hidden="true">
+                                    <span class="spin">
+                                        <span class="grooves"></span>
+                                        <span class="label-ring"><span class="label-text">Step 1</span></span>
+                                    </span>
+                                    <span class="sheen"></span>
+                                    <span class="spindle"></span>
+                                </span>
+                            </span>
+                            <span class="record-info">
+                                <span class="record-title">Sign up on SchoolsBuddy</span>
+                                <span class="record-sub">Register for the club here first.</span>
+                            </span>
+                        </a>
+                        <a class="record turntable" href="https://chat.google.com/room/AAQABEqUtMg?cls=7">
+                            <span class="platter">
+                                <span class="tonearm" aria-hidden="true"></span>
+                                <span class="disc small" style="--label: #A9CCE3; --vinyl: #201a1e" aria-hidden="true">
+                                    <span class="spin">
+                                        <span class="grooves"></span>
+                                        <span class="label-ring"><span class="label-text">Step 2</span></span>
+                                    </span>
+                                    <span class="sheen"></span>
+                                    <span class="spindle"></span>
+                                </span>
+                            </span>
+                            <span class="record-info">
+                                <span class="record-title">Join the Google Chat</span>
+                                <span class="record-sub">Get updates and reminders from the officers.</span>
+                            </span>
+                        </a>
+                    </div>
                 </section>
 
             </div>
@@ -138,8 +208,8 @@
                     <p>Follow us at <a href="https://www.instagram.com/vivace.sas">@Vivace.sas</a></p>
                 </div>
                 <div>
-                    <h3>Photo Drive</h3>
-                    <p><a href="https://drive.google.com">Click to view photos!</a></p>
+                    <h3>Contact Xavi or Julia for questions:</h3>
+                    <p><a href="mailto:solberg49314@sas.edu.sg">Xavi Solberg   |</a><a href="mailto:sheu49085@sas.edu.sg">  Julia Sheu</a></p>
                 </div>
             </div>
         </footer>

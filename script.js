@@ -3,6 +3,7 @@ const menu = document.getElementById("menu");
 
 function setOpen(open) {
     btn.setAttribute("aria-expanded", String(open));
+    btn.classList.toggle("is-open", open);
     menu.hidden = !open;
 }
 

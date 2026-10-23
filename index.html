@@ -24,6 +24,7 @@
                 <button class="menu-btn" aria-expanded="false" aria-controls="menu">
                     <span class="bars" aria-hidden="true">
                         <span></span><span></span><span></span><span></span><span></span>
+                        <span></span><span></span>
                     </span>
                     Menu
                 </button>
@@ -32,10 +33,17 @@
                     <li><a href="about.html">About Us</a></li>
                     <li><a href="signups.html">Sign Ups</a></li>
                     <li><a href="forms.html">Forms</a></li>
-                    <li><a href="index.html">Resources</a></li>
+                    <li><a href="rec.html">Resources</a></li>
                 </ul>
             </div>
-            <a class="cta" href="signups.html">Join Vivace</a>
+                        <a class="nav-follow" href="https://www.instagram.com/vivace.sas" target="_blank" rel="noopener noreferrer">
+            <svg class="ig-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+            <rect x="2" y="2" width="20" height="20" rx="5.5" fill="none" stroke="currentColor" stroke-width="2"/>
+            <circle cx="12" cy="12" r="4.6" fill="none" stroke="currentColor" stroke-width="2"/>
+            <circle cx="17.4" cy="6.6" r="1.4" fill="currentColor"/>
+            </svg>
+            <span class="follow-label">Follow us</span>
+            </a>
         </nav>
 
         <header class="masthead">
@@ -101,36 +109,41 @@
 
         <main id="main">
             <ul class="pics">
-                <li><img src="https://placehold.co/350x200" alt="Vivace photo 1"></li>
-                <li><img src="https://placehold.co/350x200" alt="Vivace photo 2"></li>
-                <li><img src="https://placehold.co/350x200" alt="Vivace photo 3"></li>
-                <li><img src="https://placehold.co/350x200" alt="Vivace photo 4"></li>
-                <li><img src="https://placehold.co/350x200" alt="Vivace photo 5"></li>
+                <!-- data-caption shows a polaroid-style caption under each photo -->
+                <li data-caption="metta home"><img src="https://placehold.co/400x400" alt="Vivace members rehearsing and performing together (photo 1)"></li>
+                <li data-caption="kkh"><img src="https://placehold.co/400x400" alt="Vivace members rehearsing and performing together (photo 2)"></li>
+                <li data-caption="homecoming"><img src="https://placehold.co/400x400" alt="Vivace members rehearsing and performing together (photo 3)"></li>
+                <li data-caption="asldjkfh"><img src="https://placehold.co/400x400" alt="Vivace members rehearsing and performing together (photo 4)"></li>
+                <li data-caption="lorem ipsum"><img src="https://placehold.co/400x400" alt="Vivace members rehearsing and performing together (photo 5)"></li>
             </ul>
 
             <div class="bottom">
-                <section class="comingup">
+                <section class="comingup hello">
+                    <!-- Decorative: a big, faint vinyl record outline behind the intro -->
+                    
                     <h2 class="section-title">Hello!</h2>
                     <!-- Placeholder copy: edit to match what the club really does -->
-                    <p>We're a student music group at SAS. Come to play, sing, or just listen.</p>
+                    <p>We're a student music group at SAS! We aim to foster the joy of music through everyone through our visits to nursing homes, hospitals, and beyond.</p>
                     <!-- Placeholder details: fill in your real day, time and room -->
                     <dl class="details">
-                        <div><dt>When</dt><dd>Day, time</dd></div>
-                        <div><dt>Where</dt><dd>Room ___</dd></div>
+                        <div><dt>When</dt><dd>Mondays, 3:15-4:15</dd></div>
+                        <div><dt>Where</dt><dd>Room S208</dd></div>
                         <div><dt>Who</dt><dd>All levels welcome</dd></div>
                     </dl>
+                    
                 </section>
 
                 <section class="comingup">
                     <h2 class="section-title">Coming Up!</h2>
                     <!-- When you add real dates, wrap each in <time datetime="2026-11-05">11/05</time> -->
                     <ul>
-                        <li class="next"><span class="date"><span class="sr-only">Next event: </span>MM/DD</span><span class="what">asjdfhkajfhgalk</span></li>
-                        <li><span class="date">MM/DD</span><span class="what">asjdfhkajfhgalk</span></li>
-                        <li><span class="date">MM/DD</span><span class="what">asjdfhkajfhgalk</span></li>
-                        <li><span class="date">MM/DD</span><span class="what">asjdfhkajfhgalk</span></li>
-                        <li><span class="date">MM/DD</span><span class="what">asjdfhkajfhgalk</span></li>
+                        <li class="next"><span class="note-bullet eighth" style="--ink: #47718F" aria-hidden="true"><i></i></span><span class="date"><span class="sr-only">Next event: </span>MM/DD</span><span class="what">asjdfhkajfhgalk</span></li>
+                        <li><span class="note-bullet beamed" style="--ink: #A9CCE3" aria-hidden="true"><i></i><b></b></span><span class="date">MM/DD</span><span class="what">asjdfhkajfhgalk</span></li>
+                        <li><span class="note-bullet eighth" style="--ink: #7FA8C9" aria-hidden="true"><i></i></span><span class="date">MM/DD</span><span class="what">asjdfhkajfhgalk</span></li>
+                        <li><span class="note-bullet beamed" style="--ink: #C9A9A6" aria-hidden="true"><i></i><b></b></span><span class="date">MM/DD</span><span class="what">asjdfhkajfhgalk</span></li>
+                        <li><span class="note-bullet eighth" style="--ink: #8FA37E" aria-hidden="true"><i></i></span><span class="date">MM/DD</span><span class="what">asjdfhkajfhgalk</span></li>
                     </ul>
+                    <a class="see-signups" href="signups.html">See all sign ups <span aria-hidden="true">&rarr;</span></a>
                 </section>
             </div>
         </main>

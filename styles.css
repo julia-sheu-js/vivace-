@@ -21,7 +21,9 @@ html { -webkit-text-size-adjust: 100%; }
 
 body {
     margin: 0;
-    background: var(--paper);
+    background:
+        radial-gradient(rgba(71, 113, 143, 0.035) 0.6px, transparent 0.6px) 0 0 / 22px 22px,
+        var(--paper);
     color: var(--text);
     font-family: var(--body);
     font-size: 1.0625rem;
@@ -66,7 +68,8 @@ a {
     text-underline-offset: 3px;
     text-decoration-thickness: 1px;
 }
-a:hover { background: var(--blue-pale); }
+a:hover { color: var(--text); text-decoration-thickness: 1.5px; }
+.menu a:hover, .faq-list summary:hover { background: var(--blue-pale); }
 
 /* ---------- Top bar: menu on the left, join button on the right ---------- */
 
@@ -77,10 +80,10 @@ a:hover { background: var(--blue-pale); }
     z-index: 40;
     align-items: center;
     justify-content: space-between;
-   
+
     background: var(--paper);
-    
-    
+
+
     padding: 14px 0 0;
 }
 
@@ -101,16 +104,59 @@ a:hover { background: var(--blue-pale); }
     cursor: pointer;
 }
 
-/* The menu icon is a five-line staff */
+/* The menu icon is a five-line staff that morphs into an X when open */
 .bars {
-    display: grid;
-    gap: 3px;
+    position: relative;
+    width: 26px;
+    height: 15px;
 }
 .bars span {
+    position: absolute;
+    left: 0;
     display: block;
     width: 26px;
     height: 1.5px;
     background: currentColor;
+    transition: opacity .25s ease, transform .3s cubic-bezier(.6,.05,.3,1.3);
+}
+.bars span:nth-child(1) { top: 0; }
+.bars span:nth-child(2) { top: 3.4px; }
+.bars span:nth-child(3) { top: 6.8px; }
+.bars span:nth-child(4) { top: 10.2px; }
+.bars span:nth-child(5) { top: 13.5px; }
+
+/* Outer lines fade out; the middle three collapse to center and cross into an X,
+   while two hidden lines fade in (rotated -45deg) to complete the other stroke */
+.menu-btn.is-open .bars span:nth-child(1),
+.menu-btn.is-open .bars span:nth-child(5) {
+    opacity: 0;
+    transform: translateY(6.8px);
+}
+.menu-btn.is-open .bars span:nth-child(2) {
+    transform: translateY(3.4px) rotate(45deg);
+}
+.menu-btn.is-open .bars span:nth-child(3) {
+    transform: rotate(45deg);
+}
+.menu-btn.is-open .bars span:nth-child(4) {
+    transform: translateY(-3.4px) rotate(45deg);
+}
+.bars span:nth-child(6),
+.bars span:nth-child(7) {
+    top: 6.8px;
+    opacity: 0;
+}
+.menu-btn.is-open .bars span:nth-child(6) {
+    opacity: 1;
+    transform: rotate(-45deg);
+}
+.menu-btn.is-open .bars span:nth-child(7) {
+    opacity: 1;
+    transform: translateY(-6.8px) rotate(-45deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .bars span { transition: none; }
 }
 
 .menu {
@@ -156,6 +202,52 @@ a:hover { background: var(--blue-pale); }
     box-shadow: 2px 2px 0 var(--blue);
 }
 
+/* ---------- Nav: small Instagram follow pill (blue & white) ---------- */
+
+.nav-follow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border: 1.5px solid var(--blue);
+    border-radius: 999px;
+    background: #fff;
+    color: var(--blue-ink);
+    font: 600 0.95rem var(--display);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: background 0.15s ease, color 0.15s ease,
+                transform 0.15s ease, box-shadow 0.15s ease;
+}
+.nav-follow .ig-icon {
+    flex: none;
+    color: var(--blue);
+    transition: color 0.15s ease, transform 0.2s ease;
+}
+.nav-follow:hover,
+.nav-follow:focus-visible {
+    background: var(--blue-ink);
+    color: #fff;
+    box-shadow: 3px 3px 0 var(--blue-pale);
+    transform: translateY(-1px);
+}
+.nav-follow:hover .ig-icon,
+.nav-follow:focus-visible .ig-icon {
+    color: #fff;
+    transform: rotate(-6deg) scale(1.08);
+}
+.site-nav { padding-right: clamp(12px, 4vw, 40px); }
+@media (max-width: 640px) {
+    .nav-follow .follow-label { display: none; }
+    .nav-follow { padding: 7px 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .nav-follow, .nav-follow .ig-icon { transition: none; }
+    .nav-follow:hover, .nav-follow:focus-visible { transform: none; }
+    .nav-follow:hover .ig-icon,
+    .nav-follow:focus-visible .ig-icon { transform: none; }
+}
+
 /* ---------- Masthead: title on a staff ---------- */
 
 .masthead {
@@ -172,7 +264,7 @@ a:hover { background: var(--blue-pale); }
 }
 
 .title-staff {
-    
+
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
@@ -246,29 +338,79 @@ h1 {
     from { opacity: 0; transform: translateY(4px); }
     to   { opacity: 1; transform: none; }
 }
+/* Hovering the title makes the whole melody bounce — the bouncing thingy */
+.masthead:hover .staff .n {
+    animation: note-bounce 0.6s ease backwards;
+    animation-delay: calc(var(--i) * 0.05s);
+}
 @media (prefers-reduced-motion: reduce) {
     .staff .n { opacity: 1; animation: none; }
+    .masthead:hover .staff .n { animation: none; }
 }
 
-/* ---------- Photo strip ---------- */
+/* ---------- Photo strip: polaroid frames ---------- */
 
 .pics {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 16px;
+    gap: 22px;
     margin: 0;
     padding: 0;
     list-style: none;
 }
+
+/* Each photo sits inside a white polaroid frame: thin border around the
+   picture, deep margin at the bottom for the handwritten caption. */
+.pics li {
+    position: relative;
+    display: block;
+    padding: 8px 8px 0;
+    background: #fffdf7;
+    border: 1px solid rgba(71, 113, 143, 0.12);
+    box-shadow: 0 6px 14px rgba(71, 113, 143, 0.16),
+                0 1px 3px rgba(71, 113, 143, 0.10);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+/* Gentle alternating tilt so the polaroids look casually scattered */
+.pics li:nth-child(odd)  { transform: rotate(-1.4deg); }
+.pics li:nth-child(even) { transform: rotate(1.1deg); }
+.pics li:nth-child(3n)   { transform: rotate(-0.6deg); }
+
+.pics li:hover {
+    transform: translateY(-6px) rotate(0deg);
+    box-shadow: 0 12px 24px rgba(71, 113, 143, 0.22),
+                0 2px 6px rgba(71, 113, 143, 0.12);
+    z-index: 1;
+}
+
 .pics img {
     display: block;
     width: 100%;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 1 / 1;               /* classic square polaroid print */
     object-fit: cover;
-    padding: 5px;
+    border: 1px solid rgba(71, 113, 143, 0.08);
     background: var(--paper-light);
-    border: 1px solid var(--blue);
-    box-shadow: 3px 3px 0 var(--blue-pale);
+}
+
+/* Caption: handwritten-feel italic serif in the bottom white space.
+   Set data-caption="fall concert" on any .pics <li>. */
+.pics li::after {
+    content: attr(data-caption);
+    display: block;
+    min-height: 34px;
+    padding: 8px 6px 4px;
+    font: italic 500 1.05rem/1.2 var(--display);
+    letter-spacing: 0.01em;
+    color: var(--blue-ink);
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pics li, .pics li:hover { transition: none; }
+    .pics li:hover { transform: none; }
 }
 
 /* ---------- Info: hello + details, and coming up ---------- */
@@ -282,6 +424,8 @@ h1 {
 }
 
 .section-title {
+    position: relative;
+    z-index: 1;
     margin: 0 0 8px;
     color: var(--blue-ink);
     font: 500 clamp(1.8rem, 3vw, 2.25rem) / 1.1 var(--display);
@@ -394,7 +538,7 @@ h1 {
     width: 100%;
     aspect-ratio: 4 / 5;
     object-fit: cover;
-    padding: 8px;
+    padding: 3px;
     background: var(--paper-light);
     border: 1px solid var(--blue);
     box-shadow: 4px 4px 0 var(--blue-pale);
@@ -454,25 +598,7 @@ h1 {
     pointer-events: auto;
 }
 
-.signup-list {
-    margin: 14px 0 0;
-    padding: 0;
-    list-style: none;
-    border-top: 3px double var(--blue-ink);
-    border-bottom: 3px double var(--blue-ink);
-}
-.signup-list li + li { border-top: 1px dotted var(--blue-ink); }
-.signup-list a {
-    display: block;
-    padding: 10px 8px;
-    font-weight: 600;
-}
-.signup-list .steps a,
-.signup-list.steps a { padding-bottom: 2px; }
-.signup-list .hint {
-    display: block;
-    padding: 0 8px 10px;
-}
+/* (old ticket list replaced by the vinyl record grid below) */
 
 /* Frame markers: one dot per frame, also usable as buttons */
 .stage-nav {
@@ -547,6 +673,7 @@ h1 {
 .card-no {
     margin-bottom: 0 !important;
     font: italic 500 1.25rem var(--display);
+    padding: 10px
 }
 .card .section-title { margin-bottom: 14px; }
 
@@ -557,6 +684,7 @@ h1 {
     background: var(--blue-pale);
     color: var(--blue-ink);
     font-weight: 600;
+    text-align: center;
 }
 .card .hint { font-style: italic; }
 
@@ -576,7 +704,7 @@ h1 {
 .contacts a {
     display: block;
     padding: 9px 16px;
-    
+
     line-height: 1.35;
     text-decoration: none;
 }
@@ -594,7 +722,7 @@ h1 {
 }
 
 /* The main button sits at the bottom of every card so the two line up */
-.card-action { margin-top: auto; 
+.card-action { margin-top: auto;
     padding: 20px;
     padding-bottom: 30px;
 }
@@ -650,7 +778,7 @@ h1 {
 /* ---------- Footer ---------- */
 
 .site-footer {
-    margin-top: 36px;
+    margin-top: 56px;
     padding-top: 14px;
     border-top: 3px double var(--blue-ink);
 }
@@ -688,7 +816,7 @@ h1 {
 }
 
 @media (max-width: 820px) {
-    .cards { grid-template-columns: 1fr; gap: 32px; }
+    .cards { grid-template-columns: 1fr; gap: 15px; }
     .frame + .frame { margin-top: 56px; }
     .officer,
     .officer.flip {
@@ -744,12 +872,12 @@ h1 {
 .site-nav {
     position: sticky;
     top: 0;
-    z-index: 40;              
+    z-index: 40;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0;
-    background: var(--paper);    
+    background: var(--paper);
     border-bottom: 1px solid var(--blue);
 }
 
@@ -761,11 +889,6 @@ h1 {
 .home .masthead { margin: 20px 0 40px; }
 
 .home .pics { gap: 22px; }
-.home .pics img {
-    aspect-ratio: 3 / 2;
-    padding: 6px;
-    box-shadow: 4px 4px 0 var(--blue-pale);
-}
 
 .home .bottom {
     gap: 72px;
@@ -791,6 +914,31 @@ h1 {
     padding-top: 22px;
 }
 
+/* Hello section: a join button echoing the nav CTA */
+.home .join-echo {
+    display: inline-block;
+    margin-top: 26px;
+    font-size: 1.2rem;
+}
+
+/* Coming Up: quiet text link to the full sign-ups page */
+.see-signups {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+    margin-top: 16px;
+    color: var(--blue-ink);
+    font: italic 500 1.15rem var(--display);
+    text-decoration: none;
+}
+.see-signups span[aria-hidden] { font-style: normal; transition: transform 0.15s ease; }
+.see-signups:hover { text-decoration: underline; }
+.see-signups:hover span[aria-hidden] { transform: translateX(4px); }
+@media (prefers-reduced-motion: reduce) {
+    .see-signups span[aria-hidden] { transition: none; }
+    .see-signups:hover span[aria-hidden] { transform: none; }
+}
+
 @media (max-width: 820px) {
     .home .bottom { gap: 44px; }
 }
@@ -799,4 +947,522 @@ h1 {
     .home .pics { gap: 12px; }
     .home .bottom { margin-top: 44px; }
     .home .site-footer { margin-top: 56px; }
+}
+/* ---------- Sign-ups page: spinning vinyl records ---------- */
+
+/* "Pick a date": a simple stack of admission tickets */
+.tickets {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 26px;
+    max-width: 560px;
+}
+a.ticket {
+    --perf: rgba(71, 113, 143, 0.4);
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 20px 14px 24px;
+    text-decoration: none;
+    color: var(--text);
+    background: var(--paper-light);
+    border: 1px solid var(--blue);
+    border-left: 3px solid var(--accent, var(--blue));
+    border-radius: 8px;
+    box-shadow: 3px 3px 0 var(--blue-pale);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+a.ticket::before {
+    /* perforation down the stub line, like a real ticket */
+    content: "";
+    position: absolute;
+    left: 56px;
+    top: 7px;
+    bottom: 7px;
+    border-left: 1px dashed var(--perf);
+}
+a.ticket::after {
+    /* punched half-notches on both edges at the perforation */
+    content: "";
+    position: absolute;
+    left: 51px;
+    top: -7px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--paper);
+    box-shadow: 0 calc(100% + 14px) 0 0 var(--paper);
+}
+.ticket-no {
+    flex: 0 0 auto;
+    width: 28px;
+    text-align: center;
+    font: italic 600 1.05rem/1 var(--display);
+    color: var(--blue-ink);
+    opacity: 0.8;
+}
+.ticket-body {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+.ticket-title {
+    color: var(--blue-ink);
+    font: 600 1.12rem/1.3 var(--display);
+    letter-spacing: 0.01em;
+}
+.ticket-sub {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    opacity: 0.8;
+}
+.ticket-cta {
+    margin-left: auto;
+    flex: 0 0 auto;
+    font: italic 600 0.78rem/1 var(--display);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--blue-ink);
+    opacity: 0.55;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+a.ticket:hover {
+    transform: translateY(-2px);
+    border-color: var(--blue-ink);
+    box-shadow: 5px 5px 0 var(--blue-pale);
+}
+a.ticket:hover .ticket-title { text-decoration: underline; text-underline-offset: 3px; }
+a.ticket:hover .ticket-cta { opacity: 1; transform: translateX(3px); }
+@media (prefers-reduced-motion: reduce) {
+    a.ticket:hover { transform: none; }
+    a.ticket:hover .ticket-cta { transform: none; }
+}
+
+/* "New to the club?": two turntables side by side */
+.record-grid.turns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+    gap: 26px;
+    margin-top: 26px;
+}
+
+a.record {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 12px 16px;
+    text-align: center;
+    text-decoration: none;
+    color: var(--text);
+    background: transparent;
+    border-radius: 10px;
+    transition: background 0.25s ease, transform 0.25s ease;
+}
+a.record:hover {
+    background: var(--paper-light);
+    transform: translateY(-3px);
+}
+
+/* The disc itself: black vinyl with a colored paper label */
+.disc {
+    position: relative;
+    display: block;
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at 32% 28%, rgba(255,255,255,0.16), transparent 45%),
+        var(--vinyl, #1b1b1d);
+    box-shadow:
+        0 10px 22px -8px rgba(31, 49, 62, 0.45),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+    transition: box-shadow 0.3s ease;
+}
+a.record:hover .disc {
+    box-shadow:
+        0 16px 30px -8px rgba(31, 49, 62, 0.55),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+/* Fine grooves: concentric rings that make the spin visible */
+.grooves {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: repeating-radial-gradient(
+        circle at center,
+        rgba(255, 255, 255, 0.05) 0 1px,
+        rgba(0, 0, 0, 0.35) 1px 3px,
+        rgba(255, 255, 255, 0.02) 3px 4px,
+        transparent 4px 7px
+    );
+}
+
+/* A soft highlight sweeping across the vinyl (does not rotate) */
+.sheen {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: linear-gradient(
+        115deg,
+        transparent 30%,
+        rgba(255, 255, 255, 0.13) 47%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0.13) 53%,
+        transparent 70%
+    );
+    opacity: 0.55;
+    transition: opacity 0.3s ease;
+}
+a.record:hover .sheen { opacity: 1; }
+
+/* Paper label in the middle — rotates with the disc */
+.label-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 46%;
+    height: 46%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at 35% 30%, rgba(255,255,255,0.35), transparent 55%),
+        var(--label, var(--blue));
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
+    display: grid;
+    place-items: center;
+}
+.label-text {
+    font: italic 600 0.8rem var(--display);
+    letter-spacing: 0.08em;
+    color: rgba(27, 27, 29, 0.75);
+    text-transform: uppercase;
+}
+
+/* The spindle hole sits above everything and never moves */
+.spindle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 9px;
+    height: 9px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: var(--paper);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35);
+    z-index: 2;
+}
+
+/* Spin: wrap the rotating layers in .spin so they turn as one unit while
+   the disc base and the sheen highlight stay put — like real vinyl under
+   a light. The grooves make the rotation visible. */
+@keyframes record-spin {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to   { transform: translate(-50%, -50%) rotate(200deg); }
+}
+.spin {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    transition: transform 0.9s cubic-bezier(0.2, 0.6, 0.3, 1);
+}
+a.record:hover .spin,
+a.record:focus-visible .spin {
+    animation: record-spin 1.6s cubic-bezier(0.3, 0.05, 0.2, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    a.record:hover .spin,
+    a.record:focus-visible .spin { animation: none; }
+    a.record:hover { transform: none; }
+}
+
+/* ---------- "New to the club?": turntable cards ---------- */
+/* The disc sits on a felt slipmat inside a rounded platter deck, with a
+   tonearm resting at its side. Hovering spins the record and swings the
+   arm onto it — like dropping the needle to start. */
+.platter {
+    position: relative;
+    display: block;
+    width: 210px;
+    height: 178px;
+    border-radius: 14px;
+    background:
+        radial-gradient(circle at 30% 25%, rgba(255,255,255,0.06), transparent 55%),
+        #2e3b46;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+    transition: box-shadow 0.3s ease;
+}
+a.record.turntable:hover .platter {
+    box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.14),
+        0 14px 26px -12px rgba(31, 49, 62, 0.5);
+}
+.platter::before {
+    /* felt slipmat under the record */
+    content: "";
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    background: var(--blue-pale);
+    opacity: 0.5;
+}
+.disc.small {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    width: 142px;
+    height: 142px;
+    transform: translateY(-50%);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.tonearm {
+    position: absolute;
+    top: 24px;
+    right: 22px;
+    width: 4px;
+    height: 106px;
+    border-radius: 3px;
+    background: linear-gradient(#cfd8de, #8d9aa5);
+    transform-origin: 50% 0;
+    transform: rotate(18deg);
+    transition: transform 0.6s cubic-bezier(0.3, 0.7, 0.3, 1);
+}
+.tonearm::before {
+    /* pivot base */
+    content: "";
+    position: absolute;
+    top: -9px;
+    left: -7px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #b7c3cc;
+    box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.15);
+}
+.tonearm::after {
+    /* cartridge / stylus */
+    content: "";
+    position: absolute;
+    bottom: -7px;
+    left: -4px;
+    width: 12px;
+    height: 14px;
+    border-radius: 3px;
+    background: #5b6a76;
+}
+a.record.turntable:hover .tonearm,
+a.record.turntable:focus-visible .tonearm {
+    transform: rotate(-8deg);
+}
+a.record.turntable:hover .disc.small,
+a.record.turntable:focus-visible .disc.small {
+    transform: translateY(-50%) scale(1.02);
+}
+.disc.small .label-text { font-size: 0.7rem; }
+
+/* Text under the disc */
+.record-info { display: flex; flex-direction: column; gap: 3px; }
+.record-title {
+    color: var(--blue-ink);
+    font: 600 1.15rem/1.3 var(--display);
+    letter-spacing: 0.01em;
+}
+.record-sub {
+    font-size: 0.92rem;
+    line-height: 1.45;
+    color: var(--text);
+    opacity: 0.85;
+    max-width: 24ch;
+}
+a.record:hover .record-title { text-decoration: underline; text-underline-offset: 3px; }
+
+/* ---------- Centered headings: "New to the club?" & Forms titles ---------- */
+/* The turntable cards on Sign Ups, and the form card titles on Forms, read
+   better centered over their artwork / staff flourish. Everything below the
+   title keeps its normal alignment. */
+.note.center > .section-title,
+.note.center > p {
+    text-align: center;
+}
+.note.center > p { margin-left: auto; margin-right: auto; }
+
+.forms .card-no,
+.forms .card-body .section-title { text-align: center; }
+
+@media (max-width: 640px) {
+    /* Turntable cards shrink to fit narrow screens */
+    .platter { width: 184px; height: 158px; }
+    .platter::before { left: 11px; width: 132px; height: 132px; }
+    .disc.small { left: 14px; width: 126px; height: 126px; }
+    .tonearm { top: 20px; right: 17px; height: 92px; }
+
+    /* Tickets tighten up: smaller number column and perforation */
+    a.ticket { gap: 12px; padding: 12px 16px 12px 18px; }
+    a.ticket::before { left: 44px; }
+    a.ticket::after { left: 39px; }
+    .ticket-no { width: 20px; font-size: 0.95rem; }
+}
+
+/* ---------- Home page: music-note bullets on the "Coming Up" listing ---------- */
+/* Hand-built CSS notes (note head + stem + optional flag/beam) so they match
+   the ink style of the staff melodies. Hovering a row makes its note bounce.
+   Geometry: 10 x 7.5 tilted oval head; right-hand stem rising from the head's
+   top edge, exactly one head-height above it — the same proportions used by
+   the SVG notes in the masthead melodies. */
+.note-bullet {
+    position: relative;
+    flex: 0 0 auto;
+    width: 26px;
+    height: 24px;
+    align-self: center;
+    color: var(--ink, var(--blue-ink));
+}
+.note-bullet::before {
+    /* note head */
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 1px;
+    width: 10px;
+    height: 7.5px;
+    border-radius: 50%;
+    background: currentColor;
+    transform: rotate(-20deg);
+}
+.note-bullet::after {
+    /* stem: base tucked into the head, tip one head-height above it */
+    content: "";
+    position: absolute;
+    left: 8.2px;
+    bottom: 4px;
+    width: 1.8px;
+    height: 18px;
+    border-radius: 1px;
+    background: currentColor;
+}
+.note-bullet.eighth { width: 28px; }
+.note-bullet.eighth i {
+    /* single flag: a curl peeling off the top of the stem */
+    position: absolute;
+    left: 9.6px;
+    top: 1.5px;
+    width: 7px;
+    height: 10px;
+    border-top: 2.4px solid currentColor;
+    border-right: 2.4px solid currentColor;
+    border-radius: 0 9px 0 7px;
+}
+.note-bullet.beamed { width: 34px; }
+.note-bullet.beamed::before {
+    /* second note head, a third of a head-height higher than the first */
+    box-shadow: 13px 1px 0 0 currentColor;
+}
+.note-bullet.beamed i {
+    /* second stem, aligned to the offset head */
+    position: absolute;
+    left: 21.2px;
+    bottom: 6.5px;
+    width: 1.8px;
+    height: 18px;
+    border-radius: 1px;
+    background: currentColor;
+}
+.note-bullet.beamed b {
+    /* beam connecting the tops of both stems. Drawn as a parallelogram so
+       its ends land exactly on the two stem tips (left tip is 2.5px higher
+       than the right one) — no tilted rectangle poking past the stems. */
+    content: "";
+    position: absolute;
+    left: 8.2px;
+    top: 1.2px;
+    width: 14.8px;
+    height: 3.2px;
+    background: currentColor;
+    transform: skewY(9.6deg);
+}
+.comingup li:hover .note-bullet,
+.comingup li:focus-within .note-bullet {
+    animation: note-bounce 0.6s ease;
+}
+@keyframes note-bounce {
+    0%   { transform: translateY(0); }
+    30%  { transform: translateY(-7px) rotate(-8deg); }
+    55%  { transform: translateY(0); }
+    72%  { transform: translateY(-3px) rotate(5deg); }
+    100% { transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .comingup li:hover .note-bullet,
+    .comingup li:focus-within .note-bullet { animation: none; }
+}
+
+/* ---------- Home page: faint vinyl outline behind the Hello intro ---------- */
+.hello {
+    position: relative;
+}
+.vinyl-outline {
+    position: absolute;
+    z-index: 0;
+    right: -70px;
+    top: -56px;
+    width: 330px;
+    height: 330px;
+    border-radius: 50%;
+    pointer-events: none;
+    background: repeating-radial-gradient(
+        circle at center,
+        transparent 0 13px,
+        rgba(71, 113, 143, 0.09) 13px 14px
+    );
+    box-shadow: inset 0 0 0 1.5px rgba(71, 113, 143, 0.16);
+}
+.vinyl-outline::before {
+    /* label ring */
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 34%;
+    height: 34%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1.5px rgba(71, 113, 143, 0.18);
+}
+.vinyl-outline::after {
+    /* spindle hole */
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 12px;
+    height: 12px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1.5px rgba(71, 113, 143, 0.22);
+}
+.hello > * { position: relative; z-index: 1; }
+.hello .section-title { z-index: 1; }
+
+@media (max-width: 820px) {
+    .vinyl-outline {
+        width: 240px;
+        height: 240px;
+        right: -40px;
+        top: -40px;
+    }
 }
