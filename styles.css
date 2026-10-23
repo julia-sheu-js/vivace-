@@ -1468,3 +1468,276 @@ a.record:hover .record-title { text-decoration: underline; text-underline-offset
         top: -40px;
     }
 }
+
+/* ---------- Resources page: liner notes + programme cards ---------- */
+
+.resources .lead-note {
+    max-width: 62ch;
+    margin: 8px auto 44px;
+    text-align: center;
+    font: italic 500 1.3rem/1.5 var(--display);
+    color: var(--blue-ink);
+}
+
+.res-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: clamp(32px, 5vw, 56px);
+    align-items: start;
+}
+
+/* Open book: the two rule sections face each other across a spine */
+.open-book {
+    position: relative;
+    padding: 18px 14px 26px;
+    background: var(--blue);
+    border-radius: 6px 10px 10px 6px;
+    box-shadow: 6px 8px 0 var(--blue-pale), 0 14px 30px rgba(31, 58, 82, 0.18);
+}
+/* stacked page edges peeking out under the cover, like a fore-edge */
+.open-book::before {
+    content: "";
+    position: absolute;
+    inset: 12px 8px 8px 10px;
+    border-radius: 4px;
+    background:
+        linear-gradient(var(--paper-light), var(--paper-light)) 0 0 / 100% 4px no-repeat,
+        repeating-linear-gradient(to bottom,
+            var(--paper-light) 0 3px,
+            rgba(71, 113, 143, 0.35) 3px 4px);
+    z-index: 0;
+}
+.book-ribbon {
+    position: absolute;
+    top: 0;
+    right: clamp(28px, 8%, 64px);
+    width: 18px;
+    height: 58px;
+    background: var(--blue-ink);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 78%, 0 100%);
+    z-index: 3;
+}
+.book-pages {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 26px minmax(0, 1fr);
+    align-items: stretch;
+}
+.book-page {
+    position: relative;
+    padding: 34px 34px 46px;
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            transparent 0 15px,
+            rgba(71, 113, 143, 0.10) 15px calc(15px + 1px)
+        ) left 24px top 78px / calc(100% - 48px) 84px no-repeat,
+        var(--paper-light);
+}
+.page-left  { border-radius: 4px 0 0 4px; }
+.page-right { border-radius: 0 4px 4px 0; }
+/* gentle curve of pages toward the gutter */
+.page-left  { box-shadow: inset -14px 0 18px -14px rgba(31, 58, 82, 0.25); }
+.page-right { box-shadow: inset  14px 0 18px -14px rgba(31, 58, 82, 0.25); }
+
+/* the spine: dark fold between the two pages */
+.book-spine {
+    background:
+        radial-gradient(60% 100% at 50% 0%, rgba(31, 58, 82, 0.55), transparent 90%),
+        linear-gradient(to right,
+            rgba(31, 58, 82, 0.30),
+            rgba(31, 58, 82, 0.55) 45%,
+            rgba(31, 58, 82, 0.55) 55%,
+            rgba(31, 58, 82, 0.30));
+    border-top: 1px solid rgba(31, 58, 82, 0.35);
+    border-bottom: 1px solid rgba(31, 58, 82, 0.35);
+}
+
+.mvt {
+    margin: 0 0 2px;
+    font: italic 500 1.05rem var(--display);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--blue-ink);
+}
+.book-page h2 {
+    margin: 2px 0 18px;
+    color: var(--blue-ink);
+    font: 500 clamp(1.6rem, 2.4vw, 2.05rem)/1.15 var(--display);
+}
+.book-rules {
+    list-style: none;
+    margin: 0 0 8px;
+    padding: 0;
+}
+.book-rules li {
+    position: relative;
+    margin: 0 0 14px;
+    padding-left: 40px;
+    font-size: 1.05rem;
+    line-height: 1.55;
+}
+.book-rules .rule-no {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 30px;
+    font: italic 600 1.05rem var(--display);
+    color: var(--blue-ink);
+    text-align: right;
+}
+.page-no {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 14px;
+    margin: 0;
+    text-align: center;
+    font: italic 500 0.95rem var(--display);
+    color: var(--blue-ink);
+    opacity: 0.75;
+}
+
+/* Sidebar cards */
+.res-side {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+/* Handbook card: looks like a little programme booklet, whole card links out */
+.handbook-card {
+    position: relative;
+    display: block;
+    padding: 24px 24px 24px 38px;
+    background: var(--paper-light);
+    border: 1px solid var(--blue-ink);
+    box-shadow: 5px 5px 0 var(--blue-pale);
+    color: var(--text);
+    text-decoration: none;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.handbook-card:hover,
+.handbook-card:focus-visible {
+    transform: translate(-2px, -2px);
+    box-shadow: 8px 8px 0 var(--blue-pale);
+}
+.handbook-flap {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 14px;
+    background: var(--blue-pale);
+    border-right: 1px dashed var(--blue-ink);
+}
+/* two "stitch" holes in the spine */
+.handbook-flap::before,
+.handbook-flap::after {
+    content: "";
+    position: absolute;
+    left: 5px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--blue-ink);
+}
+.handbook-flap::before { top: 30%; }
+.handbook-flap::after { top: 62%; }
+
+.handbook-body { display: block; }
+.handbook-kicker {
+    display: block;
+    font: italic 500 0.95rem var(--display);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--blue-ink);
+}
+.handbook-title {
+    display: block;
+    margin: 2px 0 10px;
+    color: var(--blue-ink);
+    font: 500 1.75rem/1.1 var(--display);
+}
+.handbook-text {
+    display: block;
+    font-size: 1rem;
+    line-height: 1.55;
+}
+.handbook-link {
+    display: inline-block;
+    margin-top: 14px;
+    color: var(--blue-ink);
+    font: italic 600 1.05rem var(--display);
+}
+.handbook-link span[aria-hidden] {
+    display: inline-block;
+    transition: transform 0.15s ease;
+}
+.handbook-card:hover .handbook-link { text-decoration: underline; }
+.handbook-card:hover .handbook-link span[aria-hidden] { transform: translateX(4px); }
+
+/* Login card: styled like a library book pocket */
+.login-card {
+    padding: 24px 26px 22px;
+    background: var(--paper-light);
+    border: 1px solid var(--blue);
+    box-shadow: 5px 5px 0 var(--blue-pale);
+}
+.login-card h2 {
+    margin: 0 0 10px;
+    color: var(--blue-ink);
+    font: 500 1.5rem/1.2 var(--display);
+}
+.login-card .clef { font-size: 1.7rem; line-height: 1; }
+.login-card p {
+    margin: 0 0 14px;
+    font-size: 1rem;
+    line-height: 1.55;
+}
+.cred { margin: 0; }
+.cred > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--blue);
+}
+.cred > div:last-of-type { border-bottom: 0; }
+.cred dt {
+    font: italic 500 1.05rem var(--display);
+    color: var(--blue-ink);
+}
+.cred dd { margin: 0; text-align: right; }
+.cred code {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.95rem;
+    background: var(--blue-pale);
+    padding: 2px 8px;
+    border-radius: 3px;
+}
+.lock-note {
+    margin: 12px 0 0 !important;
+    font: italic 400 0.95rem var(--body);
+    color: var(--blue-ink);
+}
+
+@media (max-width: 860px) {
+    .res-grid { grid-template-columns: 1fr; }
+    /* pages stack like a closed book read top to bottom */
+    .book-pages { grid-template-columns: minmax(0, 1fr); }
+    .book-spine { display: none; }
+    .page-left  { border-radius: 4px 4px 0 0; box-shadow: inset 0 -12px 16px -12px rgba(31, 58, 82, 0.25); }
+    .page-right { margin-top: 10px; border-radius: 0 0 4px 4px; box-shadow: inset 0 12px 16px -12px rgba(31, 58, 82, 0.25); }
+    .book-page { padding: 26px 22px 42px; }
+    .book-rules li { padding-left: 36px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .handbook-card,
+    .handbook-card:hover,
+    .handbook-card:focus-visible { transform: none; transition: none; }
+    .handbook-link span[aria-hidden] { transition: none; transform: none; }
+}
