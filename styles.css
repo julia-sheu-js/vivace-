@@ -1490,41 +1490,17 @@ a.record:hover .record-title { text-decoration: underline; text-underline-offset
     align-items: start;
 }
 
-/* Open book: the two rule sections face each other across a spine */
+/* Open book: two paper pages facing each other across a faint centre fold */
 .open-book {
     position: relative;
-    padding: 18px 14px 26px;
-    /* Cloth-bound cover: a slanted weave over a deep blue gradient */
-    background:
-        repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 3px),
-        repeating-linear-gradient(-45deg, rgba(0, 0, 0, 0.06) 0 1px, transparent 1px 3px),
-        linear-gradient(155deg, #5d87a3 0%, var(--blue-ink) 48%, #3a5f77 100%);
-    border-radius: 5px 12px 12px 5px;
-    box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.28),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.2),
-        7px 9px 0 var(--blue-pale),
-        0 16px 32px rgba(31, 58, 82, 0.22);
-}
-/* stacked page edges peeking out under the cover, like a fore-edge */
-.open-book::before {
-    content: "";
-    position: absolute;
-    inset: 12px 8px 8px 10px;
-    border-radius: 4px;
-    background:
-        linear-gradient(var(--paper-light), var(--paper-light)) 0 0 / 100% 4px no-repeat,
-        repeating-linear-gradient(to bottom,
-            var(--paper-light) 0 3px,
-            rgba(71, 113, 143, 0.35) 3px 4px);
-    z-index: 0;
+    padding: 0;
 }
 .book-ribbon {
     position: absolute;
-    top: 0;
+    top: -10px;
     right: clamp(28px, 8%, 64px);
     width: 18px;
-    height: 58px;
+    height: 62px;
     /* silk ribbon picked out in the site's muted rose */
     background: linear-gradient(to right, #c9a9a6, #bb938f 55%, #ad8783);
     box-shadow: inset 1px 0 0 rgba(255, 255, 255, 0.35);
@@ -1537,6 +1513,8 @@ a.record:hover .record-title { text-decoration: underline; text-underline-offset
     display: grid;
     grid-template-columns: minmax(0, 1fr) 26px minmax(0, 1fr);
     align-items: stretch;
+    /* the spread rests on the page like an open book on a table */
+    box-shadow: 0 14px 28px rgba(31, 58, 82, 0.12);
 }
 .book-page {
     --gutter: to right;
@@ -1559,17 +1537,13 @@ a.record:hover .record-title { text-decoration: underline; text-underline-offset
 .page-left  { box-shadow: inset -14px 0 18px -14px rgba(31, 58, 82, 0.25); }
 .page-right { box-shadow: inset  14px 0 18px -14px rgba(31, 58, 82, 0.25); }
 
-/* the spine: dark fold between the two pages */
+/* the fold: one faint line where the pages meet, fading out top and bottom */
 .book-spine {
-    background:
-        radial-gradient(60% 100% at 50% 0%, rgba(31, 58, 82, 0.55), transparent 90%),
-        linear-gradient(to right,
-            rgba(31, 58, 82, 0.30),
-            rgba(31, 58, 82, 0.55) 45%,
-            rgba(31, 58, 82, 0.55) 55%,
-            rgba(31, 58, 82, 0.30));
-    border-top: 1px solid rgba(31, 58, 82, 0.35);
-    border-bottom: 1px solid rgba(31, 58, 82, 0.35);
+    background: linear-gradient(to bottom,
+            rgba(71, 113, 143, 0) 0,
+            rgba(71, 113, 143, 0.32) 12%,
+            rgba(71, 113, 143, 0.32) 88%,
+            rgba(71, 113, 143, 0) 100%) center / 1px 100% no-repeat;
 }
 
 .mvt {
@@ -1757,7 +1731,8 @@ a.record:hover .record-title { text-decoration: underline; text-underline-offset
     .book-pages { grid-template-columns: minmax(0, 1fr); }
     .book-spine { display: none; }
     .page-left  { border-radius: 4px 4px 0 0; box-shadow: inset 0 -12px 16px -12px rgba(31, 58, 82, 0.25); --gutter: to top; }
-    .page-right { margin-top: 10px; border-radius: 0 0 4px 4px; box-shadow: inset 0 12px 16px -12px rgba(31, 58, 82, 0.25); --gutter: to bottom; }
+    /* stacked: the two pages meet on the same faint fold line */
+    .page-right { border-top: 1px solid rgba(71, 113, 143, 0.22); border-radius: 0 0 4px 4px; box-shadow: inset 0 12px 16px -12px rgba(31, 58, 82, 0.2); --gutter: to bottom; }
     .book-page { padding: 26px 22px 42px; }
     .book-rules li { padding-left: 36px; }
 }
