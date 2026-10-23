@@ -1413,19 +1413,19 @@ a.record:hover .record-title { text-decoration: underline; text-underline-offset
     .comingup li:focus-within .note-bullet { animation: none; }
 }
 
-/* ---------- Home page: faint vinyl outline behind the Hello intro ---------- */
-.hello {
+/* ---------- Home page: faint vinyl outline in the bottom-left corner ---------- */
+.home .page {
     position: relative;
-    /* keep the disc inside this column's paint layer, never over "Coming Up!" */
-    isolation: isolate;
+    /* clear band at the foot of the page so the disc never sits behind copy */
+    padding-bottom: 200px;
 }
 .vinyl-outline {
     position: absolute;
     z-index: 0;
-    right: -70px;
-    top: -56px;
-    width: 330px;
-    height: 330px;
+    left: -46px;
+    bottom: 4px;
+    width: 190px;
+    height: 190px;
     border-radius: 50%;
     pointer-events: none;
     background: repeating-radial-gradient(
@@ -1459,17 +1459,16 @@ a.record:hover .record-title { text-decoration: underline; text-underline-offset
     border-radius: 50%;
     box-shadow: inset 0 0 0 1.5px rgba(71, 113, 143, 0.22);
 }
-/* copy sits above the decorative disc, which stays out of the flow behind it */
-.hello > *:not(.vinyl-outline) { position: relative; z-index: 1; }
+.hello > * { position: relative; z-index: 1; }
 .hello .section-title { z-index: 1; }
 
-@media (max-width: 820px) {
-    /* single-column intro: keep the disc inside the page gutters */
+@media (max-width: 640px) {
+    .home .page { padding-bottom: 160px; }
     .vinyl-outline {
-        width: 210px;
-        height: 210px;
-        right: -12px;
-        top: -24px;
+        width: 140px;
+        height: 140px;
+        left: -30px;
+        bottom: 4px;
     }
 }
 
