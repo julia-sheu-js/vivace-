@@ -368,19 +368,19 @@ h1 {
     padding: 8px 8px 0;
     background: #fffdf7;
     border: 1px solid rgba(71, 113, 143, 0.12);
-    box-shadow: 0 6px 14px rgba(71, 113, 143, 0.16),
-                0 1px 3px rgba(71, 113, 143, 0.10);
+    box-shadow: 0 6px 14px rgba(71, 113, 143, 0.19),
+                0 1px 3px rgba(71, 113, 143, 0.12);
     transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 /* Gentle alternating tilt so the polaroids look casually scattered */
-.pics li:nth-child(odd)  { transform: rotate(-1.4deg); }
-.pics li:nth-child(even) { transform: rotate(1.1deg); }
-.pics li:nth-child(3n)   { transform: rotate(-0.6deg); }
+.pics li:nth-child(odd)  { transform: rotate(-2deg); }
+.pics li:nth-child(even) { transform: rotate(2deg); }
+.pics li:nth-child(3n)   { transform: rotate(-2deg); }
 
 .pics li:hover {
     transform: translateY(-6px) rotate(0deg);
-    box-shadow: 0 12px 24px rgba(71, 113, 143, 0.22),
-                0 2px 6px rgba(71, 113, 143, 0.12);
+    box-shadow: 0 12px 24px rgba(34, 79, 110, 0.22),
+                0 2px 6px rgba(42, 84, 113, 0.12);
     z-index: 1;
 }
 
@@ -902,13 +902,20 @@ h1 {
 
 /* ---------- Home page: a bit more breathing room ---------- */
 
-.home .page { padding-bottom: 64px; }
+.home .page {
+    max-width: 1400px;
+    padding-bottom: 72px;
+}
 
 .home .masthead { margin: 20px 0 40px; }
 
 .home .pics {
     grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 22px;
+    gap: 16px;
+}
+
+.home .pics li {
+    padding: 13px 13px 0;
 }
 
 .home .bottom {
