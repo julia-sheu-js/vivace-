@@ -545,6 +545,7 @@ h1 {
     border: 1px solid var(--blue);
     box-shadow: 4px 4px 0 var(--blue-pale);
 }
+.photo-kaitlyn img { object-position: center 5%; }
 .officer h2 {
     margin: 0;
     color: var(--blue-ink);
@@ -905,7 +906,10 @@ h1 {
 
 .home .masthead { margin: 20px 0 40px; }
 
-.home .pics { gap: 22px; }
+.home .pics {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 22px;
+}
 
 .home .bottom {
     gap: 72px;
