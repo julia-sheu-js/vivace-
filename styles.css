@@ -1,14 +1,11 @@
-/* Vivace@SAS
-   Idea: the page reads like a concert program on cream paper.
-   The title sits on a five-line staff and a short melody plays in around it.
-   That is the one bold move; everything else stays quiet and compact. */
+
 
 :root {
     --paper: #F6F0E2;
     --paper-light: #FBF8F0;
     --blue: #A9CCE3;
     --blue-pale: #DCEAF4;
-    --blue-ink: #47718F;   /* headings, staff lines, links */
+    --blue-ink: #47718F;  
     --text: #3F596C;
 
     --display: "Cormorant Garamond", Garamond, Palatino, "Palatino Linotype", serif;
@@ -72,7 +69,6 @@ a {
 a:hover { color: var(--text); text-decoration-thickness: 1.5px; }
 .menu a:hover, .faq-list summary:hover { background: var(--blue-pale); }
 
-/* ---------- Top bar: menu on the left, join button on the right ---------- */
 
 .site-nav {
     position: sticky;
@@ -105,7 +101,6 @@ a:hover { color: var(--text); text-decoration-thickness: 1.5px; }
     cursor: pointer;
 }
 
-/* The menu icon is a five-line staff that morphs into an X when open */
 .bars {
     position: relative;
     width: 26px;
@@ -126,8 +121,6 @@ a:hover { color: var(--text); text-decoration-thickness: 1.5px; }
 .bars span:nth-child(4) { top: 10.2px; }
 .bars span:nth-child(5) { top: 13.5px; }
 
-/* Outer lines fade out; the middle three collapse to center and cross into an X,
-   while two hidden lines fade in (rotated -45deg) to complete the other stroke */
 .menu-btn.is-open .bars span:nth-child(1),
 .menu-btn.is-open .bars span:nth-child(5) {
     opacity: 0;
@@ -203,7 +196,6 @@ a:hover { color: var(--text); text-decoration-thickness: 1.5px; }
     box-shadow: 2px 2px 0 var(--blue);
 }
 
-/* ---------- Nav: small Instagram follow pill (blue & white) ---------- */
 
 .nav-follow {
     display: inline-flex;
@@ -249,7 +241,6 @@ a:hover { color: var(--text); text-decoration-thickness: 1.5px; }
     .nav-follow:focus-visible .ig-icon { transform: none; }
 }
 
-/* ---------- Masthead: title on a staff ---------- */
 
 .masthead {
     margin: 14px 0 22px;
@@ -257,7 +248,6 @@ a:hover { color: var(--text); text-decoration-thickness: 1.5px; }
     text-align: center;
 }
 
-/* Only the About page keeps its heading pinned */
 .about .masthead {
     position: sticky;
     z-index: 30;
@@ -285,7 +275,6 @@ h1 {
     font: italic 500 1.25rem var(--display);
 }
 
-/* Five-line staff segment with a barline at its outer end */
 .staff {
     position: relative;
     height: 33px;
@@ -329,7 +318,6 @@ h1 {
 .staff.left svg  { left: 16px; }
 .staff.right svg { right: 20px; }
 
-/* The melody plays in once, note by note */
 .staff .n {
     opacity: 0;
     animation: note-in 0.4s ease forwards;
@@ -339,7 +327,7 @@ h1 {
     from { opacity: 0; transform: translateY(4px); }
     to   { opacity: 1; transform: none; }
 }
-/* Hovering the title makes the whole melody bounce — the bouncing thingy */
+
 .masthead:hover .staff .n {
     animation: note-bounce 0.6s ease backwards;
     animation-delay: calc(var(--i) * 0.05s);
@@ -349,7 +337,6 @@ h1 {
     .masthead:hover .staff .n { animation: none; }
 }
 
-/* ---------- Photo strip: polaroid frames ---------- */
 
 .pics {
     display: grid;
@@ -360,8 +347,7 @@ h1 {
     list-style: none;
 }
 
-/* Each photo sits inside a white polaroid frame: thin border around the
-   picture, deep margin at the bottom for the handwritten caption. */
+
 .pics li {
     position: relative;
     display: block;
@@ -372,9 +358,9 @@ h1 {
                 0 1px 3px rgba(71, 113, 143, 0.12);
     transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
-/* Gentle alternating tilt so the polaroids look casually scattered */
+
 .pics li:nth-child(odd)  { transform: rotate(-2deg); }
-.pics li:nth-child(even) { transform: rotate(2deg); }
+.pics li:nth-child(even) { transform: rotate(3deg); }
 .pics li:nth-child(3n)   { transform: rotate(-2deg); }
 
 .pics li:hover {
@@ -387,14 +373,13 @@ h1 {
 .pics img {
     display: block;
     width: 100%;
-    aspect-ratio: 1 / 1;               /* classic square polaroid print */
+    aspect-ratio: 1 / 1;               
     object-fit: cover;
-    border: 1px solid rgba(71, 113, 143, 0.08);
+    border: 1px solid rgba(79, 121, 150, 0.08);
     background: var(--paper-light);
 }
 
-/* Caption: handwritten-feel italic serif in the bottom white space.
-   Set data-caption="fall concert" on any .pics <li>. */
+
 .pics li::after {
     content: attr(data-caption);
     display: block;
@@ -414,7 +399,7 @@ h1 {
     .pics li:hover { transform: none; }
 }
 
-/* ---------- Info: hello + details, and coming up ---------- */
+
 
 .bottom {
     display: grid;
@@ -439,7 +424,7 @@ h1 {
     line-height: 1.55;
 }
 
-/* Program-style listings: label ........ value */
+
 .details,
 .comingup ul {
     margin: 0;
@@ -483,7 +468,7 @@ h1 {
 .details dd { margin: 0; text-align: right; }
 .what { max-width: 62%; text-align: right; }
 
-/* The next event stands out by tint and weight */
+
 .comingup li.next {
     margin: 0 -10px;
     padding: 6px 10px;
@@ -491,7 +476,7 @@ h1 {
     font-weight: 600;
 }
 
-/* ---------- About page ---------- */
+
 
 .prose {
     max-width: 62ch;
@@ -500,10 +485,6 @@ h1 {
 .prose section + section { margin-top: 32px; }
 .prose p { margin: 0; }
 
-/* ---------- Who we are: scrolling display ---------- */
-
-/* Default layout (no JavaScript, reduced motion, or a very short screen):
-   the frames are simply stacked down the page. */
 .frames { margin-top: 40px; }
 .frame {
     max-width: 900px;
@@ -527,7 +508,7 @@ h1 {
     display: grid;
     grid-template-columns: 320px minmax(0, 46ch);
     gap: 56px;
-    justify-content: center;   /* keeps text the same distance from centre as centered frames */
+    justify-content: center;  
     align-items: center;
     width: 100%;
 }
@@ -563,8 +544,6 @@ h1 {
     line-height: 1.6;
 }
 
-/* Scrolling mode: one full-screen stage stays pinned while the page scrolls
-   past it, and the frames swap in place. script.js adds the .scrolly class. */
 .scene.scrolly {
     height: calc(100vh + var(--n) * 240vh);
     height: calc(100svh + var(--n) * 240svh);
@@ -601,9 +580,7 @@ h1 {
     pointer-events: auto;
 }
 
-/* (old ticket list replaced by the vinyl record grid below) */
 
-/* Frame markers: one dot per frame, also usable as buttons */
 .stage-nav {
     position: absolute;
     top: 50%;
@@ -639,8 +616,6 @@ h1 {
     .scrolly .frame { transition: none; }
 }
 
-/* ---------- Forms page ---------- */
-
 .cards {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -649,7 +624,7 @@ h1 {
     margin-top: 36px;
 }
 
-/* Each form is a card, like a page in a concert program */
+
 .card {
     display: flex;
     flex-direction: column;
@@ -694,7 +669,6 @@ h1 {
 }
 .card .section-title { margin-bottom: 14px; }
 
-/* Tinted status line, same idea as the "next event" row on the home page */
 .card .status {
     margin: 0 -28px 18px !important;
     padding: 8px 28px;
@@ -705,7 +679,6 @@ h1 {
 }
 .card .hint { font-style: italic; }
 
-/* Officer email buttons */
 .contacts {
     display: flex;
     flex-wrap: wrap;
@@ -738,7 +711,6 @@ h1 {
     text-underline-offset: 3px;
 }
 
-/* The main button sits at the bottom of every card so the two line up */
 .card-action { margin-top: auto;
     padding: 20px;
     padding-bottom: 30px;
@@ -759,7 +731,6 @@ h1 {
     text-align: center;
 }
 
-/* Questions */
 .faq { margin-top: 64px; }
 .faq-list {
     max-width: 760px;
@@ -792,7 +763,6 @@ h1 {
     padding: 0 8px 14px;
 }
 
-/* ---------- Footer ---------- */
 
 .site-footer {
     margin-top: 56px;
@@ -820,7 +790,7 @@ h1 {
 /* ---------- Smaller screens ---------- */
 
 @media (max-width: 900px) {
-    /* Title on top, staff with the melody underneath */
+    
     .title-staff { grid-template-columns: 1fr 1fr; }
     h1 {
         grid-row: 1;
@@ -844,9 +814,7 @@ h1 {
     .officer.flip .photo { order: 0; }
     .photo { max-width: 260px; }
     .scrolly .photo { max-width: 220px; }
-    .scrolly .frame { bottom: 40px; } /* leave room for the dots */
-
-    /* Frame markers move to the bottom edge */
+    .scrolly .frame { bottom: 40px; } 
     .stage-nav {
         top: auto;
         right: auto;
@@ -900,7 +868,7 @@ h1 {
 }
 
 
-/* ---------- Home page: a bit more breathing room ---------- */
+/* ---------- Home page */
 
 .home .page {
     max-width: 1400px;
@@ -942,14 +910,12 @@ h1 {
     padding-top: 22px;
 }
 
-/* Hello section: a join button echoing the nav CTA */
 .home .join-echo {
     display: inline-block;
     margin-top: 26px;
     font-size: 1.2rem;
 }
 
-/* Coming Up: quiet text link to the full sign-ups page */
 .see-signups {
     display: inline-flex;
     align-items: baseline;
@@ -976,9 +942,9 @@ h1 {
     .home .bottom { margin-top: 44px; }
     .home .site-footer { margin-top: 56px; }
 }
-/* ---------- Sign-ups page: spinning vinyl records ---------- */
+/* ---------- Sign-ups page */
 
-/* "Pick a date": a simple stack of admission tickets */
+
 .tickets {
     display: flex;
     flex-direction: column;
@@ -1003,7 +969,7 @@ a.ticket {
     transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 a.ticket::before {
-    /* perforation down the stub line, like a real ticket */
+   
     content: "";
     position: absolute;
     left: 56px;
@@ -1012,7 +978,7 @@ a.ticket::before {
     border-left: 1px dashed var(--perf);
 }
 a.ticket::after {
-    /* punched half-notches on both edges at the perforation */
+    
     content: "";
     position: absolute;
     left: 51px;
@@ -1069,7 +1035,7 @@ a.ticket:hover .ticket-cta { opacity: 1; transform: translateX(3px); }
     a.ticket:hover .ticket-cta { transform: none; }
 }
 
-/* "New to the club?": two turntables side by side */
+
 .record-grid.turns {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
@@ -1095,8 +1061,6 @@ a.record:hover {
     background: var(--paper-light);
     transform: translateY(-3px);
 }
-
-/* The disc itself: black vinyl with a colored paper label */
 .disc {
     position: relative;
     display: block;
@@ -1117,7 +1081,7 @@ a.record:hover .disc {
         inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
-/* Fine grooves: concentric rings that make the spin visible */
+
 .grooves {
     position: absolute;
     inset: 0;
@@ -1131,7 +1095,7 @@ a.record:hover .disc {
     );
 }
 
-/* A soft highlight sweeping across the vinyl (does not rotate) */
+
 .sheen {
     position: absolute;
     inset: 0;
@@ -1149,7 +1113,6 @@ a.record:hover .disc {
 }
 a.record:hover .sheen { opacity: 1; }
 
-/* Paper label in the middle — rotates with the disc */
 .label-ring {
     position: absolute;
     top: 50%;
@@ -1172,7 +1135,7 @@ a.record:hover .sheen { opacity: 1; }
     text-transform: uppercase;
 }
 
-/* The spindle hole sits above everything and never moves */
+
 .spindle {
     position: absolute;
     top: 50%;
@@ -1186,9 +1149,6 @@ a.record:hover .sheen { opacity: 1; }
     z-index: 2;
 }
 
-/* Spin: wrap the rotating layers in .spin so they turn as one unit while
-   the disc base and the sheen highlight stay put — like real vinyl under
-   a light. The grooves make the rotation visible. */
 @keyframes record-spin {
     from { transform: translate(-50%, -50%) rotate(0deg); }
     to   { transform: translate(-50%, -50%) rotate(200deg); }
@@ -1214,10 +1174,8 @@ a.record:focus-visible .spin {
     a.record:hover { transform: none; }
 }
 
-/* ---------- "New to the club?": turntable cards ---------- */
-/* The disc sits on a felt slipmat inside a rounded platter deck, with a
-   tonearm resting at its side. Hovering spins the record and swings the
-   arm onto it — like dropping the needle to start. */
+ 
+
 .platter {
     position: relative;
     display: block;
@@ -1236,7 +1194,7 @@ a.record.turntable:hover .platter {
         0 14px 26px -12px rgba(31, 49, 62, 0.5);
 }
 .platter::before {
-    /* felt slipmat under the record */
+    
     content: "";
     position: absolute;
     left: 14px;
@@ -1270,7 +1228,7 @@ a.record.turntable:hover .platter {
     transition: transform 0.6s cubic-bezier(0.3, 0.7, 0.3, 1);
 }
 .tonearm::before {
-    /* pivot base */
+    
     content: "";
     position: absolute;
     top: -9px;
@@ -1282,7 +1240,7 @@ a.record.turntable:hover .platter {
     box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.15);
 }
 .tonearm::after {
-    /* cartridge / stylus */
+    
     content: "";
     position: absolute;
     bottom: -7px;
@@ -1302,7 +1260,7 @@ a.record.turntable:focus-visible .disc.small {
 }
 .disc.small .label-text { font-size: 0.7rem; }
 
-/* Text under the disc */
+
 .record-info { display: flex; flex-direction: column; gap: 3px; }
 .record-title {
     color: var(--blue-ink);
@@ -1318,10 +1276,6 @@ a.record.turntable:focus-visible .disc.small {
 }
 a.record:hover .record-title { text-decoration: underline; text-underline-offset: 3px; }
 
-/* ---------- Centered headings: "New to the club?" & Forms titles ---------- */
-/* The turntable cards on Sign Ups, and the form card titles on Forms, read
-   better centered over their artwork / staff flourish. Everything below the
-   title keeps its normal alignment. */
 .note.center > .section-title,
 .note.center > p {
     text-align: center;
@@ -1332,25 +1286,20 @@ a.record:hover .record-title { text-decoration: underline; text-underline-offset
 .forms .card-body .section-title { text-align: center; }
 
 @media (max-width: 640px) {
-    /* Turntable cards shrink to fit narrow screens */
+    
     .platter { width: 184px; height: 158px; }
     .platter::before { left: 11px; width: 132px; height: 132px; }
     .disc.small { left: 14px; width: 126px; height: 126px; }
     .tonearm { top: 20px; right: 17px; height: 92px; }
 
-    /* Tickets tighten up: smaller number column and perforation */
+   
     a.ticket { gap: 12px; padding: 12px 16px 12px 18px; }
     a.ticket::before { left: 44px; }
     a.ticket::after { left: 39px; }
     .ticket-no { width: 20px; font-size: 0.95rem; }
 }
 
-/* ---------- Home page: music-note bullets on the "Coming Up" listing ---------- */
-/* Hand-built CSS notes (note head + stem + optional flag/beam) so they match
-   the ink style of the staff melodies. Hovering a row makes its note bounce.
-   Geometry: 10 x 7.5 tilted oval head; right-hand stem rising from the head's
-   top edge, exactly one head-height above it — the same proportions used by
-   the SVG notes in the masthead melodies. */
+
 .note-bullet {
     position: relative;
     flex: 0 0 auto;
@@ -1360,7 +1309,7 @@ a.record:hover .record-title { text-decoration: underline; text-underline-offset
     color: var(--ink, var(--blue-ink));
 }
 .note-bullet::before {
-    /* note head */
+    
     content: "";
     position: absolute;
     left: 0;
@@ -1372,7 +1321,7 @@ a.record:hover .record-title { text-decoration: underline; text-underline-offset
     transform: rotate(-20deg);
 }
 .note-bullet::after {
-    /* stem: base tucked into the head, tip one head-height above it */
+    
     content: "";
     position: absolute;
     left: 8.2px;
@@ -1384,7 +1333,6 @@ a.record:hover .record-title { text-decoration: underline; text-underline-offset
 }
 .note-bullet.eighth { width: 28px; }
 .note-bullet.eighth i {
-    /* single flag: a curl peeling off the top of the stem */
     position: absolute;
     left: 9.6px;
     top: 1.5px;
@@ -1396,11 +1344,11 @@ a.record:hover .record-title { text-decoration: underline; text-underline-offset
 }
 .note-bullet.beamed { width: 34px; }
 .note-bullet.beamed::before {
-    /* second note head, a third of a head-height higher than the first */
+    
     box-shadow: 13px 1.5px 0 0 currentColor;
 }
 .note-bullet.beamed i {
-    /* second stem, aligned to the offset head */
+  
     position: absolute;
     left: 21.2px;
     bottom: 6.5px;
@@ -1410,9 +1358,7 @@ a.record:hover .record-title { text-decoration: underline; text-underline-offset
     background: currentColor;
 }
 .note-bullet.beamed b {
-    /* beam connecting the tops of both stems. Drawn as a parallelogram so
-       its ends land exactly on the two stem tips (left tip is 2.5px higher
-       than the right one) — no tilted rectangle poking past the stems. */
+    
     content: "";
     position: absolute;
     left: 8.2px;
@@ -1439,10 +1385,10 @@ a.record:hover .record-title { text-decoration: underline; text-underline-offset
     .comingup li:focus-within .note-bullet { animation: none; }
 }
 
-/* ---------- Home page: faint treble clef in the bottom-left corner ---------- */
+
 .home .page {
     position: relative;
-    /* clear band at the foot of the page so the disc never sits behind copy */
+    
     padding-bottom: 200px;
 }
 .treble-clef {
@@ -1466,7 +1412,6 @@ a.record:hover .record-title { text-decoration: underline; text-underline-offset
 .hello > * { position: relative; z-index: 1; }
 .hello .section-title { z-index: 1; }
 
-/* Faint, page-specific clefs echo the home-page watermark. */
 .page-clef {
     position: absolute;
     z-index: 0;
@@ -1528,7 +1473,6 @@ a.record:hover .record-title { text-decoration: underline; text-underline-offset
     .page-clef--signup-treble { top: 135px; right: -34px; }
 }
 
-/* ---------- Resources page: liner notes + programme cards ---------- */
 
 .resources .lead-note {
     max-width: 62ch;
@@ -1545,13 +1489,12 @@ a.record:hover .record-title { text-decoration: underline; text-underline-offset
     align-items: start;
 }
 
-/* Open book: two paper pages facing each other across a faint centre fold */
 .open-book {
     position: relative;
     padding: 0;
     isolation: isolate;
 }
-/* A cloth-bound cover peeks out around the paper leaves. */
+
 .open-book::before {
     content: "";
     position: absolute;
@@ -1568,14 +1511,14 @@ a.record:hover .record-title { text-decoration: underline; text-underline-offset
         inset 0 0 0 3px rgba(251, 248, 240, 0.12);
     pointer-events: none;
 }
-/* cloth ribbon marker lying over the right-hand leaf */
+
 .book-ribbon {
     position: absolute;
     top: -10px;
     right: clamp(28px, 8%, 64px);
     width: 18px;
     height: 62px;
-    /* silk ribbon picked out in the site's muted rose */
+    
     background: linear-gradient(to right, #c9a9a6, #bb938f 55%, #ad8783);
     box-shadow: inset 1px 0 0 rgba(255, 255, 255, 0.35);
     clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 78%, 0 100%);
@@ -1588,7 +1531,7 @@ a.record:hover .record-title { text-decoration: underline; text-underline-offset
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     align-items: stretch;
-    /* Each wide leaf reads like a horizontal page in a bound volume. */
+    
     box-shadow: 0 14px 28px rgba(31, 58, 82, 0.12);
 }
 .book-page,
@@ -1597,8 +1540,7 @@ a.record:hover .record-title { text-decoration: underline; text-underline-offset
     --gutter: to right;
     position: relative;
     padding: 25px 26px 36px;
-    /* Papery stock: two grain dot layers, a warm tone that deepens toward the
-       gutter, and a slightly aged foot where the pages have been turned. */
+    
     background:
         radial-gradient(rgba(120, 96, 58, 0.055) 0.5px, transparent 0.6px) 0 0 / 4px 4px,
         radial-gradient(rgba(71, 113, 143, 0.045) 0.5px, transparent 0.6px) 2px 2px / 6px 6px,
@@ -1616,11 +1558,10 @@ a.record:hover .record-title { text-decoration: underline; text-underline-offset
     border-top: 1px solid rgba(71, 113, 143, 0.12);
 }
 
-/* the fold: one faint line where the pages meet, fading out top and bottom */
 .book-spine {
     display: none;
 }
-/* sewn head band (top) and tail band (bottom) */
+
 .book-spine::before,
 .book-spine::after {
     content: "";
@@ -1648,7 +1589,7 @@ a.record:hover .record-title { text-decoration: underline; text-underline-offset
     color: var(--blue-ink);
     font: 500 clamp(1.35rem, 2vw, 1.75rem)/1.15 var(--display);
 }
-/* short printer's rule under each movement heading */
+
 .book-page h2::after {
     content: "";
     display: block;
@@ -1661,7 +1602,7 @@ a.record:hover .record-title { text-decoration: underline; text-underline-offset
     list-style: none;
     margin: 0 0 8px;
     padding: 0;
-    /* every rule sits on a ruled line */
+    
     background-image: repeating-linear-gradient(to bottom,
         transparent 0 calc(var(--rule-line-height) - 1px),
         rgba(71, 113, 143, 0.16) calc(var(--rule-line-height) - 1px) var(--rule-line-height));
@@ -1696,14 +1637,13 @@ a.record:hover .record-title { text-decoration: underline; text-underline-offset
     opacity: 0.75;
 }
 
-/* Sidebar cards */
+
 .res-side {
     display: flex;
     flex-direction: column;
     gap: 18px;
 }
 
-/* Handbook card: looks like a little programme booklet, whole card links out */
 .handbook-card {
     position: relative;
     display: block;
@@ -1729,7 +1669,7 @@ a.record:hover .record-title { text-decoration: underline; text-underline-offset
     background: var(--blue-pale);
     border-right: 1px dashed var(--blue-ink);
 }
-/* two "stitch" holes in the spine */
+
 .handbook-flap::before,
 .handbook-flap::after {
     content: "";
@@ -1775,7 +1715,7 @@ a.record:hover .record-title { text-decoration: underline; text-underline-offset
 .handbook-card:hover .handbook-link { text-decoration: underline; }
 .handbook-card:hover .handbook-link span[aria-hidden] { transform: translateX(4px); }
 
-/* Login card: styled like a library book pocket */
+
 .login-card {
     padding: 19px 19px 18px;
     background: var(--paper-light);
